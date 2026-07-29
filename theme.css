@@ -86,22 +86,29 @@ body{
   display: block;
 }
 
-/* GitHub link button: fully fills with the accent color on hover (it navigates
-   away in a new tab), distinguishing it from the theme toggle below. */
+/* GitHub link button: the whole button fills solid with the accent color on
+   hover (it navigates away in a new tab). The icon switches to --bg so it
+   stays legible against the accent fill: dark in dark mode (light blue bg),
+   light in light mode (darker blue bg) — always high-contrast either way. */
 .top-bar > a.icon-btn:hover{
-  color: var(--icon-accent);
+  background: var(--icon-accent);
+  border-color: var(--icon-accent);
+  color: var(--bg);
 }
 
 /* Theme toggle button: tinted background on hover/active, matching the
-   download button's interaction style but with the blue accent color,
-   signaling it opens an in-page dropdown rather than navigating anywhere. */
+   download button's interaction style but with the blue accent color, and
+   the icon itself turns accent-blue too — signaling this is an in-page
+   dropdown rather than a navigating link. */
 #theme-toggle:hover{
   border-color: var(--icon-accent);
   background: color-mix(in srgb, var(--icon-accent) 15%, transparent);
+  color: var(--icon-accent);
 }
 #theme-toggle:active{
   border-color: var(--icon-accent);
   background: color-mix(in srgb, var(--icon-accent) 28%, transparent);
+  color: var(--icon-accent);
 }
 
 #theme-toggle .theme-icon{
