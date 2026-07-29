@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MouseUtil</title>
+<style>
+  :root{
+    --bg: #191919;
+    --text: #f5f5f4;
+    --muted: #9a9a97;
+    --border: #262624;
+    --green: #4fae63;
+    --card: #111110;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:72px 24px 64px;
+  }
+  .icon{
+    font-size:64px;
+    line-height:1;
+    margin-bottom:8px;
+  }
+  .header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    margin-bottom:10px;
+  }
+  h1{
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0;
+    min-width:0;
+  }
+  .download-block{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .meta{
+    color:var(--muted);
+    font-size:14px;
+    margin:6px 0 32px;
+    text-align:center;
+  }
+  .download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .download-btn:hover{
+    border-color:#3a3a37;
+    background:#151513;
+  }
+  .download-btn svg{
+    width:16px;
+    height:16px;
+    stroke:var(--green);
+  }
+  p{
+    color:#d4d4d1;
+    margin:0 0 16px;
+    font-size:16px;
+  }
+  p strong{
+    color:var(--text);
+  }
+  .divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:36px 0;
+  }
+  .nav-links{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin:32px 0 36px;
+  }
+  .nav-links a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+  }
+  .nav-links a:hover{
+    color:var(--muted);
+  }
+  .nav-links svg{
+    width:16px;
+    height:16px;
+    stroke:var(--muted);
+    fill:var(--muted);
+    flex-shrink:0;
+  }
+  .nav-links svg[stroke-width]{
+    fill:none;
+  }
+  h2{
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin:0 0 22px;
+  }
+  .release{
+    margin-bottom:36px;
+  }
+  .release-title{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .latest{
+    color:var(--green);
+    font-weight:600;
+    font-size:15px;
+  }
+  ul{
+    margin:0;
+    padding-left:22px;
+    color:#d4d4d1;
+  }
+  li{
+    margin-bottom:12px;
+    font-size:15.5px;
+  }
+  @media (max-width:600px){
+    h1{font-size:28px;}
+    .wrap{padding:48px 20px 48px;}
+    .download-btn{padding:8px 12px;font-size:13px;}
+    .download-btn svg{width:14px;height:14px;}
+  }
+  @media (max-width:420px){
+    h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="icon">🐭</div>
+
+    <div class="header-row">
+      <h1>MouseUtil</h1>
+    </div>
+
+    <div class="download-block">
+      <a href="#" class="download-btn" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M5 21h14"/>
+        </svg>
+        Download
+      </a>
+      <div class="meta">57.1 MB, zip, v1.2.1</div>
+    </div>
+
+    <p>A native Windows 11 mouse-activity utility built with WinUI 3 (Windows App SDK) and .NET 8. It runs in one of two modes on a custom timer:</p>
+
+    <p><strong>Auto click</strong> — clicks at wherever the cursor currently is without moving it. Great for repetitive clicking tasks, keeping certain applications active, or automating simple interactions.</p>
+
+    <p><strong>Spin mode</strong> — sweeps the cursor around a tiny circle and returns it to the exact starting pixel, without clicking. Useful for keeping a machine from going idle/locking/sleeping.</p>
+
+    <div class="nav-links">
+      <a href="#">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="features.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        Features
+      </a>
+      <a href="screenshots.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <path d="M21 15l-5-5L5 21"></path>
+        </svg>
+        Screenshots
+      </a>
+      <a href="changelog.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3" y2="6"></line>
+          <line x1="3" y1="12" x2="3" y2="12"></line>
+          <line x1="3" y1="18" x2="3" y2="18"></line>
+        </svg>
+        Change log
+      </a>
+    </div>
+
+    <h2>Release notes</h2>
+
+    <div class="release">
+      <div class="release-title">
+        MouseUtil 1.2.1 - <span class="latest">Latest</span>
+      </div>
+      <ul>
+        <li>Fixed: pressing the Start/Stop hotkey (default F6) right after typing a new Minutes/Seconds value (without clicking away or pressing Enter first) would start automation with the old interval instead of the one just typed. Only affected typed input, not the spin-button arrows.</li>
+        <li>Made a small adjustment to the icon.</li>
+        <li>Renamed the "Countdown display in taskbar" setting to "Show countdown progress on taskbar icon" - the old caption was ambiguous regarding what the setting does.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

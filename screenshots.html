@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screenshots · MouseUtil</title>
+<style>
+  :root{
+    --bg: #191919;
+    --text: #f5f5f4;
+    --muted: #9a9a97;
+    --border: #2c2c29;
+    --card: #1f1f1e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  .wrap{
+    max-width:1440px;
+    margin:0 auto;
+    padding:64px 40px 72px;
+  }
+  h1{
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0 0 40px;
+  }
+  h2{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin:0 0 16px;
+  }
+  .divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:0 0 28px;
+  }
+  section{
+    margin-bottom:48px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:20px;
+  }
+  .shot{
+    aspect-ratio:280/280;
+    border:1px dashed var(--border);
+    border-radius:10px;
+    background:var(--card);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+  .shot img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .shot .placeholder-label{
+    color:var(--muted);
+    font-size:13px;
+    text-align:center;
+    padding:0 12px;
+  }
+  @media (max-width:1100px){
+    .grid{grid-template-columns:repeat(2, 1fr);}
+  }
+  @media (max-width:640px){
+    .grid{grid-template-columns:1fr;}
+    .wrap{padding:48px 20px 48px;}
+    h1{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Screenshots</h1>
+
+    <section>
+      <h2>Light mode</h2>
+      <hr class="divider">
+      <div class="grid">
+        <div class="shot"><img src="screenshots/light-1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-1.png</span></div>
+        <div class="shot"><img src="screenshots/light-2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-2.png</span></div>
+        <div class="shot"><img src="screenshots/light-3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-3.png</span></div>
+        <div class="shot"><img src="screenshots/light-4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-4.png</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Dark mode</h2>
+      <hr class="divider">
+      <div class="grid">
+        <div class="shot"><img src="screenshots/dark-1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-1.png</span></div>
+        <div class="shot"><img src="screenshots/dark-2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-2.png</span></div>
+        <div class="shot"><img src="screenshots/dark-3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-3.png</span></div>
+        <div class="shot"><img src="screenshots/dark-4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-4.png</span></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

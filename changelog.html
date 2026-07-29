@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Change log · MouseUtil</title>
+<style>
+  :root{
+    --bg: #191919;
+    --text: #f5f5f4;
+    --muted: #b9b9b6;
+    --border: #2c2c29;
+    --card: #262625;
+    --green-bg: #1f3327;
+    --green-border: #2f4a35;
+    --latest: #6fbf7f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:64px 24px 72px;
+  }
+  h1{
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0 0 24px;
+  }
+  .divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:0 0 32px;
+  }
+  .entry{
+    border:1px solid var(--border);
+    background:var(--card);
+    border-radius:12px;
+    padding:22px 24px 24px;
+    margin-bottom:24px;
+  }
+  .entry.latest{
+    background:var(--green-bg);
+    border-color:var(--green-border);
+  }
+  .entry-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .entry-icon{
+    font-size:18px;
+    line-height:1;
+    filter:grayscale(1) brightness(1.3);
+    opacity:.85;
+  }
+  .entry-icon.accent{
+    filter:none;
+    opacity:1;
+  }
+  .entry-title{
+    font-size:19px;
+    font-weight:700;
+  }
+  .latest-tag{
+    color:var(--latest);
+    font-weight:600;
+    font-size:16px;
+  }
+  .entry-divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:0 0 16px;
+    opacity:.6;
+  }
+  .entry.latest .entry-divider{
+    border-top-color:var(--green-border);
+  }
+  ul{
+    margin:0;
+    padding-left:20px;
+    color:var(--muted);
+  }
+  .entry.latest ul{
+    color:#dbe9dd;
+  }
+  li{
+    margin-bottom:10px;
+    font-size:15px;
+  }
+  li:last-child{
+    margin-bottom:0;
+  }
+  @media (max-width:600px){
+    h1{font-size:34px;}
+    .wrap{padding:48px 20px 48px;}
+    .entry{padding:18px 18px 20px;}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Change log</h1>
+    <hr class="divider">
+
+    <div class="entry latest">
+      <div class="entry-head">
+        <span class="entry-icon">🐭</span>
+        <span class="entry-title">MouseUtil 1.2.1 - <span class="latest-tag">Latest</span></span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Fixed: pressing the Start/Stop hotkey (default F6) right after typing a new Minutes/Seconds value (without clicking away or pressing Enter first) would start automation with the old interval instead of the one just typed. Only affected typed input, not the spin-button arrows.</li>
+        <li>Made a small adjustment to the icon.</li>
+        <li>Renamed the "Countdown display in taskbar" setting to "Show countdown progress on taskbar icon" - the old caption was ambiguous regarding what the setting does.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-icon accent">⚙️</span>
+        <span class="entry-title">MouseUtil 1.2.0</span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Added a taskbar icon progress indicator, giving at-a-glance status visibility without needing to open the app window.</li>
+        <li>Made slight changes to the app icon to fit better in system tray.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-icon">🐭</span>
+        <span class="entry-title">MouseUtil 1.1.2</span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Fixed: Spin mode — stopping automation quickly after starting could leave the status stuck on a stale "Spinning in X" countdown instead of showing "Stopped after N spin". (Caused by a 500ms display-hold timer added in 1.1.0 that didn't know Stop had been pressed.)</li>
+        <li>Further tweaks to the settings UI.</li>
+        <li>Added: App version now shown in the settings flyout header.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-icon">🐭</span>
+        <span class="entry-title">MouseUtil 1.1.1</span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Minor tweaks to the settings UI.</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-icon">🐭</span>
+        <span class="entry-title">MouseUtil 1.1.0</span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Close to system tray (optional, off by default): closing the window now keeps MouseUtil running in the tray instead of exiting.</li>
+        <li>Single instance: launching MouseUtil while it's already running brings the existing window to the front instead of opening a second copy.</li>
+        <li>Spin mode: removed the unnecessary startup delay before the first spin (still present for Auto Click, where it prevents an accidental instant stop).</li>
+      </ul>
+    </div>
+
+    <div class="entry">
+      <div class="entry-head">
+        <span class="entry-icon">🐭</span>
+        <span class="entry-title">MouseUtil 1.0.0</span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>MouseUtil released</li>
+      </ul>
+    </div>
+
+  </div>
+</body>
+</html>
