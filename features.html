@@ -56,19 +56,30 @@
   p strong{
     color:var(--text);
   }
-  /* top intro block: card + description */
-  .intro{
-    display:flex;
-    gap:24px;
-    margin-bottom:8px;
-    flex-wrap:wrap;
-  }
+  /* top open-source card, full width, with a muted GitHub logo watermark */
   .oss-card{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
     background:var(--card);
     border:1px solid var(--border);
     border-radius:10px;
-    padding:20px;
-    flex:0 0 260px;
+    padding:24px 28px;
+    margin-bottom:8px;
+    overflow:hidden;
+    text-decoration:none;
+    color:inherit;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .oss-card:hover{
+    border-color:var(--hover-border);
+    background:var(--hover-bg);
+  }
+  .oss-card-text{
+    position:relative;
+    z-index:1;
   }
   .oss-card .label{
     font-size:16px;
@@ -78,33 +89,16 @@
   .oss-card .sub{
     color:var(--muted);
     font-size:14px;
-    margin-bottom:16px;
   }
-  .source-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    border:1px solid var(--border);
-    color:var(--text);
-    background:transparent;
-    padding:8px 14px;
-    border-radius:8px;
-    font-size:14px;
-    font-weight:600;
-    text-decoration:none;
-  }
-  .source-btn:hover{
-    border-color:var(--hover-border);
-    background:var(--hover-bg);
-  }
-  .source-btn svg{
-    width:14px;
-    height:14px;
-    stroke:var(--green);
-  }
-  .intro-text{
-    flex:1;
-    min-width:260px;
+  .oss-card-logo{
+    position:absolute;
+    right:-12px;
+    bottom:-24px;
+    width:120px;
+    height:120px;
+    color:var(--muted);
+    opacity:.22;
+    pointer-events:none;
   }
   ul{
     margin:0;
@@ -137,8 +131,8 @@
   @media (max-width:600px){
     h1{font-size:34px;}
     .wrap{padding:48px 20px 48px;}
-    .intro{flex-direction:column;}
-    .oss-card{flex:1 1 auto;}
+    .oss-card{padding:20px;}
+    .oss-card-logo{width:90px;height:90px;right:-16px;bottom:-16px;}
   }
 </style>
 </head>
@@ -171,24 +165,17 @@
     <h1>Features</h1>
     <hr class="divider">
 
-    <div class="intro">
-      <div class="oss-card">
+    <a class="oss-card" href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">
+      <div class="oss-card-text">
         <div class="label">Open source</div>
         <div class="sub">See project on GitHub</div>
-        <a href="#" class="source-btn">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="16 18 22 12 16 6"></polyline>
-            <polyline points="8 6 2 12 8 18"></polyline>
-          </svg>
-          Source code
-        </a>
       </div>
-      <div class="intro-text">
-        <p><strong>MouseUtil</strong> is a free and open source lightweight Windows utility that keeps your mouse "active" by clicking or jiggling/moving in place, so your PC doesn't go idle, lock, or sleep during long calls, downloads, or AFK sessions. It runs natively on Windows 10/11 (WinUI 3 / .NET 8) with a clean, minimal interface.</p>
-      </div>
-    </div>
+      <svg class="oss-card-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
 
     <hr class="divider mid">
+
+    <p><strong>MouseUtil</strong> is a free and open source lightweight Windows utility that keeps your mouse "active" by clicking or jiggling/moving in place, so your PC doesn't go idle, lock, or sleep during long calls, downloads, or AFK sessions. It runs natively on Windows 10/11 (WinUI 3 / .NET 8) with a clean, minimal interface.</p>
 
     <h2>Core features</h2>
     <ul>
