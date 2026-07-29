@@ -43,14 +43,21 @@ body{
   transition: background .2s ease, color .2s ease;
 }
 
-.theme-switcher{
+.top-bar{
   position: fixed;
   top: 20px;
   right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   z-index: 1000;
 }
 
-#theme-toggle{
+.theme-switcher{
+  position: relative;
+}
+
+.icon-btn{
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -62,13 +69,19 @@ body{
   justify-content: center;
   cursor: pointer;
   padding: 0;
+  text-decoration: none;
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
 }
-#theme-toggle:hover{
+.icon-btn:hover{
   border-color: var(--green);
 }
-#theme-toggle:active{
+.icon-btn:active{
   transform: scale(0.96);
+}
+.icon-btn svg{
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 #theme-toggle .theme-icon{
   display: flex;
@@ -127,17 +140,26 @@ body{
   color: var(--green);
 }
 
+.page-footer{
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 48px;
+  padding-bottom: 48px;
+}
+
 @media (max-width:600px){
-  .theme-switcher{
+  .top-bar{
     top: 14px;
     right: 14px;
+    gap: 8px;
   }
-  #theme-toggle{
+  .icon-btn{
     width: 36px;
     height: 36px;
     border-radius: 9px;
   }
-  #theme-toggle .theme-icon svg{
+  .icon-btn svg{
     width: 16px;
     height: 16px;
   }
