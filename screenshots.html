@@ -4,14 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Screenshots · MouseUtil</title>
+<link rel="stylesheet" href="theme.css">
+<script>
+(function(){
+  try{
+    var p = localStorage.getItem('mouseutil-theme');
+    var eff = (p === 'light' || p === 'dark') ? p : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', eff);
+  }catch(e){}
+})();
+</script>
 <style>
-  :root{
-    --bg: #191919;
-    --text: #f5f5f4;
-    --muted: #9a9a97;
-    --border: #2c2c29;
-    --card: #1f1f1e;
-  }
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -107,6 +110,7 @@
 </style>
 </head>
 <body>
+  <button id="theme-toggle" aria-label="Toggle theme"></button>
   <div class="wrap">
     <h1>Screenshots</h1>
 
@@ -139,5 +143,6 @@
       GitHub
     </a>
   </div>
+  <script src="theme.js"></script>
 </body>
 </html>
