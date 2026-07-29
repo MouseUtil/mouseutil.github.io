@@ -18,6 +18,7 @@
   --hover-bg: #262624;
   --hover-border: #3a3a37;
   --shadow: rgba(0,0,0,0.45);
+  --icon-accent: #6fb3ee;
 }
 
 [data-theme="light"]{
@@ -37,6 +38,7 @@
   --hover-bg: #eeeeec;
   --hover-border: #d3d3cf;
   --shadow: rgba(0,0,0,0.12);
+  --icon-accent: #2f6fb0;
 }
 
 body{
@@ -73,7 +75,7 @@ body{
   transition: border-color .15s ease, background .15s ease, transform .1s ease;
 }
 .icon-btn:hover{
-  border-color: var(--green);
+  border-color: var(--icon-accent);
 }
 .icon-btn:active{
   transform: scale(0.96);
@@ -137,7 +139,7 @@ body{
   flex-shrink: 0;
 }
 .theme-option.active{
-  color: var(--green);
+  color: var(--icon-accent);
 }
 
 .page-footer{
