@@ -54,7 +54,7 @@
     gap:20px;
   }
   .shot{
-    aspect-ratio:280/280;
+    aspect-ratio:582/855;
     border:1px dashed var(--border);
     border-radius:10px;
     background:var(--card);
@@ -62,11 +62,19 @@
     align-items:center;
     justify-content:center;
     overflow:hidden;
+    padding:0;
+    cursor:pointer;
+    font:inherit;
+    color:inherit;
+    transition:border-color .15s ease;
+  }
+  .shot:hover{
+    border-color:var(--icon-accent);
   }
   .shot img{
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain;
     display:block;
   }
   .shot .placeholder-label{
@@ -74,6 +82,40 @@
     font-size:13px;
     text-align:center;
     padding:0 12px;
+  }
+  #lightbox{
+    border:none;
+    background:transparent;
+    padding:0;
+    max-width:none;
+    max-height:none;
+  }
+  #lightbox::backdrop{
+    background:rgba(0,0,0,0.82);
+  }
+  #lightbox img{
+    display:block;
+    max-width:88vw;
+    max-height:88vh;
+    margin:0 auto;
+    border-radius:10px;
+  }
+  #lightbox-close{
+    position:fixed;
+    top:20px;
+    right:20px;
+  }
+  #lightbox-prev{
+    position:fixed;
+    left:20px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+  #lightbox-next{
+    position:fixed;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
   }
   @media (max-width:1100px){
     .grid{grid-template-columns:repeat(2, 1fr);}
@@ -117,10 +159,10 @@
       <h2>Light mode</h2>
       <hr class="divider">
       <div class="grid">
-        <div class="shot"><img src="screenshots/light-1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-1.png</span></div>
-        <div class="shot"><img src="screenshots/light-2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-2.png</span></div>
-        <div class="shot"><img src="screenshots/light-3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-3.png</span></div>
-        <div class="shot"><img src="screenshots/light-4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-4.png</span></div>
+        <button type="button" class="shot" data-index="0"><img src="screenshots/light-1.png" alt="MouseUtil light mode screenshot 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-1.png</span></button>
+        <button type="button" class="shot" data-index="1"><img src="screenshots/light-2.png" alt="MouseUtil light mode screenshot 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-2.png</span></button>
+        <button type="button" class="shot" data-index="2"><img src="screenshots/light-3.png" alt="MouseUtil light mode screenshot 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-3.png</span></button>
+        <button type="button" class="shot" data-index="3"><img src="screenshots/light-4.png" alt="MouseUtil light mode screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">light-4.png</span></button>
       </div>
     </section>
 
@@ -128,16 +170,72 @@
       <h2>Dark mode</h2>
       <hr class="divider">
       <div class="grid">
-        <div class="shot"><img src="screenshots/dark-1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-1.png</span></div>
-        <div class="shot"><img src="screenshots/dark-2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-2.png</span></div>
-        <div class="shot"><img src="screenshots/dark-3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-3.png</span></div>
-        <div class="shot"><img src="screenshots/dark-4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-4.png</span></div>
+        <button type="button" class="shot" data-index="4"><img src="screenshots/dark-1.png" alt="MouseUtil dark mode screenshot 1" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-1.png</span></button>
+        <button type="button" class="shot" data-index="5"><img src="screenshots/dark-2.png" alt="MouseUtil dark mode screenshot 2" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-2.png</span></button>
+        <button type="button" class="shot" data-index="6"><img src="screenshots/dark-3.png" alt="MouseUtil dark mode screenshot 3" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-3.png</span></button>
+        <button type="button" class="shot" data-index="7"><img src="screenshots/dark-4.png" alt="MouseUtil dark mode screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-4.png</span></button>
       </div>
     </section>
   </div>
 
+  <dialog id="lightbox">
+    <button type="button" id="lightbox-close" class="icon-btn" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <button type="button" id="lightbox-prev" class="icon-btn" aria-label="Previous image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <img id="lightbox-img" src="" alt="">
+    <button type="button" id="lightbox-next" class="icon-btn" aria-label="Next image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </dialog>
+
   <div class="page-footer">© 2026 MouseUtil</div>
 
   <script src="theme.js"></script>
+  <script>
+  (function(){
+    var images = [
+      'screenshots/light-1.png','screenshots/light-2.png','screenshots/light-3.png','screenshots/light-4.png',
+      'screenshots/dark-1.png','screenshots/dark-2.png','screenshots/dark-3.png','screenshots/dark-4.png'
+    ];
+    var dialog = document.getElementById('lightbox');
+    var imgEl = document.getElementById('lightbox-img');
+    var current = 0;
+
+    function show(index){
+      current = (index + images.length) % images.length;
+      imgEl.src = images[current];
+    }
+    function openAt(index){
+      show(index);
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+    }
+    function next(){ show(current + 1); }
+    function prev(){ show(current - 1); }
+
+    document.querySelectorAll('.shot').forEach(function(shot){
+      shot.addEventListener('click', function(){
+        openAt(parseInt(shot.getAttribute('data-index'), 10));
+      });
+    });
+
+    document.getElementById('lightbox-next').addEventListener('click', function(e){ e.stopPropagation(); next(); });
+    document.getElementById('lightbox-prev').addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+    document.getElementById('lightbox-close').addEventListener('click', function(){ dialog.close(); });
+
+    // Click on the backdrop (outside the dialog's content) closes it.
+    dialog.addEventListener('click', function(e){
+      if (e.target === dialog) dialog.close();
+    });
+
+    // Escape-to-close is native <dialog> behavior. Arrow keys navigate.
+    dialog.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+    });
+  })();
+  </script>
 </body>
 </html>
