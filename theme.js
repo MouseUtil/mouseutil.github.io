@@ -1,197 +1,120 @@
-/* Shared theme variables + toggle dropdown styling, used by all MouseUtil pages */
+// Shared theme switcher for all MouseUtil pages.
+// Opens a dropdown with Light / Dark / System. Persists the choice in
+// localStorage so it syncs across every page (and browser tabs) on this site.
+(function () {
+  var STORAGE_KEY = 'mouseutil-theme';
+  var media = window.matchMedia('(prefers-color-scheme: light)');
 
-:root,
-[data-theme="dark"]{
-  --bg: #191919;
-  --text: #f5f5f4;
-  --text-secondary: #d4d4d1;
-  --muted: #9a9a97;
-  --border: #2c2c29;
-  --green: #4fae63;
-  --card: #1f1f1e;
-  --blue: #5b9bd5;
-  --amber: #d9a441;
-  --green-bg: #1f3327;
-  --green-border: #2f4a35;
-  --latest: #6fbf7f;
-  --latest-text: #dbe9dd;
-  --hover-bg: #262624;
-  --hover-border: #3a3a37;
-  --shadow: rgba(0,0,0,0.45);
-  --icon-accent: #6fb3ee;
-}
+  var ICONS = {
+    light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>',
+    dark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>',
+    system: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>'
+  };
+  var LABELS = { light: 'Light', dark: 'Dark', system: 'System' };
 
-[data-theme="light"]{
-  --bg: #ffffff;
-  --text: #1a1a1a;
-  --text-secondary: #40403c;
-  --muted: #6b6b68;
-  --border: #e3e3e0;
-  --green: #2f9e4f;
-  --card: #f5f5f4;
-  --blue: #2f6fb0;
-  --amber: #a5730a;
-  --green-bg: #eaf7ee;
-  --green-border: #bfe6ca;
-  --latest: #2f9e4f;
-  --latest-text: #1f4a2c;
-  --hover-bg: #eeeeec;
-  --hover-border: #d3d3cf;
-  --shadow: rgba(0,0,0,0.12);
-  --icon-accent: #2f6fb0;
-}
-
-body{
-  transition: background .2s ease, color .2s ease;
-}
-
-.top-bar{
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 1000;
-}
-
-.theme-switcher{
-  position: relative;
-}
-
-.icon-btn{
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-  text-decoration: none;
-  transition: border-color .15s ease, background .15s ease, color .15s ease, transform .1s ease;
-}
-.icon-btn:hover{
-  border-color: var(--icon-accent);
-}
-.icon-btn:active{
-  transform: scale(0.96);
-}
-.icon-btn svg{
-  width: 18px;
-  height: 18px;
-  display: block;
-}
-
-/* GitHub link button: the whole button fills solid with the accent color on
-   hover (it navigates away in a new tab). The icon switches to --bg so it
-   stays legible against the accent fill: dark in dark mode (light blue bg),
-   light in light mode (darker blue bg) — always high-contrast either way. */
-.top-bar > a.icon-btn:hover{
-  background: var(--icon-accent);
-  border-color: var(--icon-accent);
-  color: var(--bg);
-}
-
-/* Theme toggle button: tinted background on hover/active, matching the
-   download button's interaction style but with the blue accent color, and
-   the icon itself turns accent-blue too — signaling this is an in-page
-   dropdown rather than a navigating link. */
-#theme-toggle:hover{
-  border-color: var(--icon-accent);
-  background: color-mix(in srgb, var(--icon-accent) 15%, transparent);
-  color: var(--icon-accent);
-}
-#theme-toggle:active{
-  border-color: var(--icon-accent);
-  background: color-mix(in srgb, var(--icon-accent) 28%, transparent);
-  color: var(--icon-accent);
-}
-
-#theme-toggle .theme-icon{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#theme-toggle .theme-icon svg{
-  width: 18px;
-  height: 18px;
-  display: block;
-}
-
-.theme-menu{
-  position: absolute;
-  top: 48px;
-  right: 0;
-  min-width: 150px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 6px;
-  display: none;
-  flex-direction: column;
-  gap: 2px;
-  box-shadow: 0 10px 28px var(--shadow);
-}
-.theme-menu.open{
-  display: flex;
-}
-
-.theme-option{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border-radius: 7px;
-  border: none;
-  background: transparent;
-  color: var(--text);
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-}
-.theme-option:hover{
-  background: var(--hover-bg);
-}
-.theme-option svg{
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-.theme-option.active{
-  color: var(--icon-accent);
-}
-
-.page-footer{
-  text-align: center;
-  color: var(--muted);
-  font-size: 13px;
-  margin-top: 48px;
-  padding-bottom: 48px;
-}
-
-@media (max-width:600px){
-  .top-bar{
-    top: 14px;
-    right: 14px;
-    gap: 8px;
+  function systemTheme() {
+    return media.matches ? 'light' : 'dark';
   }
-  .icon-btn{
-    width: 36px;
-    height: 36px;
-    border-radius: 9px;
+
+  function getPref() {
+    var stored = localStorage.getItem(STORAGE_KEY);
+    return stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
   }
-  .icon-btn svg{
-    width: 16px;
-    height: 16px;
+
+  function setPref(pref) {
+    localStorage.setItem(STORAGE_KEY, pref);
   }
-  .theme-menu{
-    top: 44px;
+
+  function closeMenu() {
+    var menu = document.getElementById('theme-menu');
+    var btn = document.getElementById('theme-toggle');
+    if (menu) menu.classList.remove('open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
   }
-}
+
+  function openMenu() {
+    var menu = document.getElementById('theme-menu');
+    var btn = document.getElementById('theme-toggle');
+    if (menu) menu.classList.add('open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function apply(pref) {
+    var effective = pref === 'system' ? systemTheme() : pref;
+    document.documentElement.setAttribute('data-theme', effective);
+
+    var btn = document.getElementById('theme-toggle');
+    if (btn) {
+      var iconSpan = btn.querySelector('.theme-icon');
+      if (iconSpan) iconSpan.innerHTML = ICONS[pref];
+      var label = 'Theme: ' + LABELS[pref] + (pref === 'system' ? ' (' + LABELS[effective] + ')' : '') + ' — click to change';
+      btn.setAttribute('aria-label', label);
+      btn.title = label;
+    }
+
+    var options = document.querySelectorAll('.theme-option');
+    for (var i = 0; i < options.length; i++) {
+      var isActive = options[i].getAttribute('data-value') === pref;
+      options[i].classList.toggle('active', isActive);
+      options[i].setAttribute('aria-selected', isActive ? 'true' : 'false');
+    }
+  }
+
+  function init() {
+    var pref = getPref();
+    apply(pref);
+
+    var btn = document.getElementById('theme-toggle');
+    var menu = document.getElementById('theme-menu');
+
+    if (btn && menu) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (menu.classList.contains('open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      var options = menu.querySelectorAll('.theme-option');
+      for (var i = 0; i < options.length; i++) {
+        options[i].addEventListener('click', function () {
+          pref = this.getAttribute('data-value');
+          setPref(pref);
+          apply(pref);
+          closeMenu();
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        if (!menu.contains(e.target) && e.target !== btn && !btn.contains(e.target)) {
+          closeMenu();
+        }
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeMenu();
+      });
+    }
+
+    // Keep in sync if the OS-level light/dark preference changes while "System" is active.
+    media.addEventListener('change', function () {
+      if (getPref() === 'system') apply('system');
+    });
+
+    // Keep in sync across tabs/pages when the choice changes elsewhere.
+    window.addEventListener('storage', function (e) {
+      if (e.key === STORAGE_KEY) {
+        pref = getPref();
+        apply(pref);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
