@@ -197,7 +197,7 @@
     </div>
 
     <div class="download-block">
-      <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.1/MouseUtilSetup_1.2.1.zip" class="download-btn" download>
+      <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="download-btn" download>
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 3v12"/>
           <path d="M7 10l5 5 5-5"/>
@@ -205,7 +205,7 @@
         </svg>
         Download
       </a>
-      <div class="meta">57.1 MB, zip, v1.2.1</div>
+      <div class="meta">57.1 MB, zip, v1.2.2</div>
     </div>
 
     <p>A native Windows 11 mouse-activity utility built with WinUI 3 (Windows App SDK) and .NET 8. It runs in one of two modes on a custom timer:</p>
@@ -248,12 +248,13 @@
 
     <div class="release">
       <div class="release-title">
-        MouseUtil 1.2.1 - <span class="latest">Latest</span>
+        MouseUtil 1.2.2 - <span class="latest">Latest</span>
       </div>
       <ul>
-        <li>Fixed: pressing the Start/Stop hotkey (default F6) right after typing a new Minutes/Seconds value (without clicking away or pressing Enter first) would start automation with the old interval instead of the one just typed. Only affected typed input, not the spin-button arrows.</li>
-        <li>Made a small adjustment to the icon.</li>
-        <li>Renamed the "Countdown display in taskbar" setting to "Show countdown progress on taskbar icon" - the old caption was ambiguous regarding what the setting does.</li>
+        <li>Fixed timer drift – actions fired slightly less often than the configured interval, with the gap growing the longer the automation ran, especially over long sessions.</li>
+        <li>Fixed a smaller residual drift specific to Spin mode, where the spin animation's own duration was silently added on top of each interval instead of counting toward it.</li>
+        <li>The installer's window title bar now displays "MouseUtil" instead of "MouseUtil version 1.x.x".</li>
+        <li>The installer now has a Welcome screen, showing the version number there instead.</li>
       </ul>
     </div>
   </div>
