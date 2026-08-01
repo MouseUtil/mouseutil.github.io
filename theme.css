@@ -168,8 +168,9 @@ body{
 
 .theme-menu{
   position: absolute;
-  top: 48px;
-  right: 0;
+  top: 0;
+  right: 100%;
+  margin-right: 8px;
   min-width: 150px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -236,7 +237,7 @@ body{
     height: 16px;
   }
   .theme-menu{
-    top: 44px;
+    margin-right: 6px;
   }
   .breadcrumb{
     top: 14px;
