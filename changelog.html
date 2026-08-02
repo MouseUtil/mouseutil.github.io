@@ -353,6 +353,19 @@
     var pinned = false;
     var mobileQuery = window.matchMedia('(max-width:600px)');
 
+    // When a dropdown option is picked, the button is force-pinned next to
+    // the other top-bar buttons regardless of scroll position, until the
+    // user scrolls back to the very top of the page.
+    var forcedPinByMenu = false;
+    var TOP_TOLERANCE = 4;
+    // Guards against the case where scrollIntoView's own landing position
+    // (e.g. for entries already near the top of the page) is itself within
+    // TOP_TOLERANCE of 0 — without this, that landing would be mistaken for
+    // the user manually scrolling back to the top and immediately undo the
+    // pin it just set.
+    var MENU_CLICK_COOLDOWN_MS = 600;
+    var menuClickCooldownUntil = 0;
+
     function pin(){
       if (pinned) return;
       pinned = true;
@@ -372,6 +385,17 @@
       if (mobileQuery.matches){
         pin();
         return;
+      }
+
+      if (forcedPinByMenu){
+        if (Date.now() >= menuClickCooldownUntil && window.scrollY <= TOP_TOLERANCE){
+          forcedPinByMenu = false;
+          // Fall through to the normal logic below, which will unpin since
+          // we're back at the top.
+        } else {
+          pin();
+          return;
+        }
       }
 
       var titleRect = titleRow.getBoundingClientRect();
@@ -427,6 +451,9 @@
       opt.addEventListener('click', function(){
         var target = document.getElementById(opt.getAttribute('data-target'));
         if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        forcedPinByMenu = true;
+        menuClickCooldownUntil = Date.now() + MENU_CLICK_COOLDOWN_MS;
+        pin();
         closeMenu();
       });
     });
