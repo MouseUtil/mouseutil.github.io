@@ -45,9 +45,20 @@
     border-top:1px solid var(--border);
     margin:0 0 28px;
   }
+  .shots-sections{
+    display:flex;
+    flex-direction:column;
+  }
   section{
     margin-bottom:48px;
   }
+  /* Default (light theme, or no theme set yet): light screenshots first. */
+  .light-section{ order:1; }
+  .dark-section{ order:2; }
+  /* Dark theme: dark screenshots first. Reacts live to data-theme changes
+     on <html>, so switching the theme toggle reorders instantly with no JS. */
+  [data-theme="dark"] .light-section{ order:2; }
+  [data-theme="dark"] .dark-section{ order:1; }
   .grid{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -163,7 +174,8 @@
   <div class="wrap">
     <h1>Screenshots</h1>
 
-    <section>
+    <div class="shots-sections">
+    <section class="light-section">
       <h2>Light mode</h2>
       <hr class="divider">
       <div class="grid">
@@ -174,7 +186,7 @@
       </div>
     </section>
 
-    <section>
+    <section class="dark-section">
       <h2>Dark mode</h2>
       <hr class="divider">
       <div class="grid">
@@ -184,6 +196,7 @@
         <button type="button" class="shot" data-index="7"><img src="screenshots/dark-4.png" alt="MouseUtil dark mode screenshot 4" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"><span class="placeholder-label" style="display:none;">dark-4.png</span></button>
       </div>
     </section>
+    </div>
   </div>
 
   <dialog id="lightbox">
