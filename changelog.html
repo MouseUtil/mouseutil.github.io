@@ -32,7 +32,52 @@
     font-size:44px;
     font-weight:800;
     letter-spacing:-0.02em;
+    margin:0;
+  }
+  .changelog-title-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
     margin:0 0 24px;
+  }
+  .changelog-menu-wrap{
+    position:relative;
+    flex-shrink:0;
+  }
+  #changelog-menu-toggle:hover{
+    border-color: var(--icon-accent);
+    background: linear-gradient(color-mix(in srgb, var(--icon-accent) 15%, transparent), color-mix(in srgb, var(--icon-accent) 15%, transparent)), var(--card);
+    color: var(--icon-accent);
+  }
+  #changelog-menu-toggle:active{
+    border-color: var(--icon-accent);
+    background: linear-gradient(color-mix(in srgb, var(--icon-accent) 28%, transparent), color-mix(in srgb, var(--icon-accent) 28%, transparent)), var(--card);
+    color: var(--icon-accent);
+  }
+  .changelog-menu{
+    position:absolute;
+    top:100%;
+    right:0;
+    margin-top:8px;
+    min-width:200px;
+    max-height:320px;
+    overflow-y:auto;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:6px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    box-shadow:0 10px 28px var(--shadow);
+    z-index:1000;
+  }
+  .changelog-menu.open{
+    display:flex;
+  }
+  .entry{
+    scroll-margin-top:96px;
   }
   .divider{
     border:none;
@@ -178,10 +223,30 @@
     </a>
   </div>
   <div class="wrap">
-    <h1>Change log</h1>
+    <div class="changelog-title-row">
+      <h1>Change log</h1>
+      <div class="changelog-menu-wrap" id="changelog-menu-wrap">
+        <button id="changelog-menu-toggle" class="icon-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Jump to a version">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="14.7" y2="18"></line>
+          </svg>
+        </button>
+        <div class="changelog-menu" id="changelog-menu" role="listbox">
+          <button class="theme-option" role="option" data-target="v1-2-2">MouseUtil 1.2.2</button>
+          <button class="theme-option" role="option" data-target="v1-2-1">MouseUtil 1.2.1</button>
+          <button class="theme-option" role="option" data-target="v1-2-0">MouseUtil 1.2.0</button>
+          <button class="theme-option" role="option" data-target="v1-1-2">MouseUtil 1.1.2</button>
+          <button class="theme-option" role="option" data-target="v1-1-1">MouseUtil 1.1.1</button>
+          <button class="theme-option" role="option" data-target="v1-1-0">MouseUtil 1.1.0</button>
+          <button class="theme-option" role="option" data-target="v1-0-0">MouseUtil 1.0.0</button>
+        </div>
+      </div>
+    </div>
     <hr class="divider">
 
-    <div class="entry latest">
+    <div class="entry latest" id="v1-2-2">
       <div class="entry-head">
         <span class="entry-icon icon-bug"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.5c-1.734 0-2.812 1.197-2.812 3.125h5.625C12.813 3.697 11.734 2.5 10 2.5m5 8.75h3.75V10H15V8.122c.856-.019 1.494-.294 2.113-.913l1.325-1.325L17.553 5l-1.325 1.325c-.406.406-.753.55-1.325.55h-4.278v10c1.922 0 3.322-.975 3.969-2.647l.481.481c.406.407.55.754.55 1.325v.841h1.25v-.84c0-.907-.275-1.57-.916-2.21l-1.018-1.019q.057-.445.059-.931zM3.772 6.325 2.447 5l-.885.884L2.889 7.21c.618.62 1.256.891 2.112.913V10H1.25v1.25H5v.625q.002.486.06.931l-1.02 1.019c-.64.64-.915 1.303-.915 2.21v.84h1.25v-.84c0-.572.144-.922.55-1.326l.481-.48c.65 1.671 2.047 2.646 3.969 2.646v-10H5.097c-.572 0-.922-.144-1.325-.55" fill="currentColor"/></svg></span>
         <span class="entry-title">MouseUtil 1.2.2 <span class="latest-tag">Latest</span></span>
@@ -195,7 +260,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-2-1">
       <div class="entry-head">
         <span class="entry-icon icon-bug"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.5c-1.734 0-2.812 1.197-2.812 3.125h5.625C12.813 3.697 11.734 2.5 10 2.5m5 8.75h3.75V10H15V8.122c.856-.019 1.494-.294 2.113-.913l1.325-1.325L17.553 5l-1.325 1.325c-.406.406-.753.55-1.325.55h-4.278v10c1.922 0 3.322-.975 3.969-2.647l.481.481c.406.407.55.754.55 1.325v.841h1.25v-.84c0-.907-.275-1.57-.916-2.21l-1.018-1.019q.057-.445.059-.931zM3.772 6.325 2.447 5l-.885.884L2.889 7.21c.618.62 1.256.891 2.112.913V10H1.25v1.25H5v.625q.002.486.06.931l-1.02 1.019c-.64.64-.915 1.303-.915 2.21v.84h1.25v-.84c0-.572.144-.922.55-1.326l.481-.48c.65 1.671 2.047 2.646 3.969 2.646v-10H5.097c-.572 0-.922-.144-1.325-.55" fill="currentColor"/></svg></span>
         <span class="entry-title">MouseUtil 1.2.1</span>
@@ -208,7 +273,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-2-0">
       <div class="entry-head">
         <span class="entry-icon icon-badge"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="23,12 19.85,8.75 19.78,4.22 15.25,4.15 12,1 8.75,4.15 4.22,4.22 4.15,8.75 1,12 4.15,15.25 4.22,19.78 8.75,19.85 12,23 15.25,19.85 19.78,19.78 19.85,15.25" fill="currentColor"></polygon><rect x="10.8" y="6.5" width="2.4" height="7.5" rx="1.2" fill="#fff"></rect><rect x="10.8" y="15.5" width="2.4" height="2.4" rx="1.2" fill="#fff"></rect></svg></span>
         <span class="entry-title">MouseUtil 1.2.0</span>
@@ -220,7 +285,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-1-2">
       <div class="entry-head">
         <span class="entry-icon icon-bug"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.5c-1.734 0-2.812 1.197-2.812 3.125h5.625C12.813 3.697 11.734 2.5 10 2.5m5 8.75h3.75V10H15V8.122c.856-.019 1.494-.294 2.113-.913l1.325-1.325L17.553 5l-1.325 1.325c-.406.406-.753.55-1.325.55h-4.278v10c1.922 0 3.322-.975 3.969-2.647l.481.481c.406.407.55.754.55 1.325v.841h1.25v-.84c0-.907-.275-1.57-.916-2.21l-1.018-1.019q.057-.445.059-.931zM3.772 6.325 2.447 5l-.885.884L2.889 7.21c.618.62 1.256.891 2.112.913V10H1.25v1.25H5v.625q.002.486.06.931l-1.02 1.019c-.64.64-.915 1.303-.915 2.21v.84h1.25v-.84c0-.572.144-.922.55-1.326l.481-.48c.65 1.671 2.047 2.646 3.969 2.646v-10H5.097c-.572 0-.922-.144-1.325-.55" fill="currentColor"/></svg></span>
         <span class="entry-title">MouseUtil 1.1.2</span>
@@ -233,7 +298,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-1-1">
       <div class="entry-head">
         <span class="entry-icon icon-bug"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.5c-1.734 0-2.812 1.197-2.812 3.125h5.625C12.813 3.697 11.734 2.5 10 2.5m5 8.75h3.75V10H15V8.122c.856-.019 1.494-.294 2.113-.913l1.325-1.325L17.553 5l-1.325 1.325c-.406.406-.753.55-1.325.55h-4.278v10c1.922 0 3.322-.975 3.969-2.647l.481.481c.406.407.55.754.55 1.325v.841h1.25v-.84c0-.907-.275-1.57-.916-2.21l-1.018-1.019q.057-.445.059-.931zM3.772 6.325 2.447 5l-.885.884L2.889 7.21c.618.62 1.256.891 2.112.913V10H1.25v1.25H5v.625q.002.486.06.931l-1.02 1.019c-.64.64-.915 1.303-.915 2.21v.84h1.25v-.84c0-.572.144-.922.55-1.326l.481-.48c.65 1.671 2.047 2.646 3.969 2.646v-10H5.097c-.572 0-.922-.144-1.325-.55" fill="currentColor"/></svg></span>
         <span class="entry-title">MouseUtil 1.1.1</span>
@@ -244,7 +309,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-1-0">
       <div class="entry-head">
         <span class="entry-icon icon-badge"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="23,12 19.85,8.75 19.78,4.22 15.25,4.15 12,1 8.75,4.15 4.22,4.22 4.15,8.75 1,12 4.15,15.25 4.22,19.78 8.75,19.85 12,23 15.25,19.85 19.78,19.78 19.85,15.25" fill="currentColor"></polygon><rect x="10.8" y="6.5" width="2.4" height="7.5" rx="1.2" fill="#fff"></rect><rect x="10.8" y="15.5" width="2.4" height="2.4" rx="1.2" fill="#fff"></rect></svg></span>
         <span class="entry-title">MouseUtil 1.1.0</span>
@@ -257,7 +322,7 @@
       </ul>
     </div>
 
-    <div class="entry">
+    <div class="entry" id="v1-0-0">
       <div class="entry-head">
         <span class="entry-icon icon-purple"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="m12.134 7.188 2.241 2.24-.884.884-2.241-2.24zm-6.821-.625L1.874 16.874l1.25 1.25 10.313-3.437.937-.938L6.25 5.625zm5.937-2.188V3.75c0-.9.35-1.25 1.25-1.25V1.25c-1.672 0-2.5.828-2.5 2.5v.625c0 .9-.35 1.25-1.25 1.25v1.25c1.672 0 2.5-.828 2.5-2.5M17.5 5c0 1.588-.913 2.5-2.5 2.5v1.25c2.278 0 3.75-1.472 3.75-3.75zm-3.437-1.25a.936.936 0 0 0-.938.938c0 .518.419.937.938.937A.936.936 0 0 0 15 4.688a.936.936 0 0 0-.937-.938m2.5 6.563a.936.936 0 0 0-.938.937c0 .519.419.938.938.938a.936.936 0 0 0 .937-.938.936.936 0 0 0-.937-.937"/></svg></span>
         <span class="entry-title">MouseUtil 1.0.0</span>
@@ -273,5 +338,99 @@
   <div class="page-footer">© 2026 MouseUtil</div>
 
   <script src="theme.js"></script>
+  <script>
+  (function(){
+    var wrap = document.getElementById('changelog-menu-wrap');
+    var titleRow = document.querySelector('.changelog-title-row');
+    var topBar = document.querySelector('.top-bar');
+    var themeSwitcher = document.querySelector('.theme-switcher');
+    var toggle = document.getElementById('changelog-menu-toggle');
+    var menu = document.getElementById('changelog-menu');
+    if (!wrap || !titleRow || !topBar || !themeSwitcher || !toggle || !menu) return;
+
+    var originalParent = wrap.parentNode;
+    var originalNext = wrap.nextSibling;
+    var pinned = false;
+    var mobileQuery = window.matchMedia('(max-width:600px)');
+
+    function pin(){
+      if (pinned) return;
+      pinned = true;
+      topBar.insertBefore(wrap, themeSwitcher);
+    }
+    function unpin(){
+      if (!pinned) return;
+      pinned = false;
+      originalParent.insertBefore(wrap, originalNext);
+    }
+    function closeMenu(){
+      menu.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function update(){
+      if (mobileQuery.matches){
+        pin();
+        return;
+      }
+
+      var titleRect = titleRow.getBoundingClientRect();
+      var scrollThreshold = titleRect.bottom + window.scrollY;
+      var pastScroll = window.scrollY > scrollThreshold;
+
+      // Where the button's right edge would sit if inline (stable regardless
+      // of whether it's currently there, since the flex row's own width
+      // doesn't depend on how many children it has).
+      var buttonRight = titleRect.right;
+
+      // Left edge of the theme+GitHub cluster, corrected to exclude the
+      // hamburger's own contribution when it's currently pinned (so the gap
+      // measurement reflects the "unpinned" layout consistently).
+      var topBarLeft = topBar.getBoundingClientRect().left;
+      if (pinned){
+        var wrapWidth = wrap.getBoundingClientRect().width;
+        var gapPx = parseFloat(getComputedStyle(topBar).gap) || 10;
+        topBarLeft += wrapWidth + gapPx;
+      }
+
+      var gap = topBarLeft - buttonRight;
+      var MIN_GAP_PIN = 24;
+      var MIN_GAP_UNPIN = 40;
+      var crowded = pinned ? (gap < MIN_GAP_UNPIN) : (gap < MIN_GAP_PIN);
+
+      if (pastScroll || crowded) pin(); else unpin();
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      var isOpen = menu.classList.contains('open');
+      if (isOpen) closeMenu();
+      else {
+        menu.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    document.addEventListener('click', function(e){
+      if (!wrap.contains(e.target)) closeMenu();
+    });
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    menu.querySelectorAll('[data-target]').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        var target = document.getElementById(opt.getAttribute('data-target'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        closeMenu();
+      });
+    });
+  })();
+  </script>
 </body>
 </html>
