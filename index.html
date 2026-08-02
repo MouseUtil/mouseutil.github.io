@@ -162,9 +162,30 @@
   @media (max-width:600px){
     .wrap{padding:48px 20px 48px;}
   }
+
+  /* Homepage breadcrumb: hidden until the user scrolls past the logo/title,
+     then fades in. Acts as a "scroll to top" shortcut rather than a link. */
+  #home-breadcrumb{
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .2s ease, visibility .2s ease;
+  }
+  #home-breadcrumb.visible{
+    opacity:1;
+    visibility:visible;
+  }
+  #home-breadcrumb .breadcrumb-link{
+    cursor:pointer;
+  }
 </style>
 </head>
 <body>
+  <div class="breadcrumb" id="home-breadcrumb">
+    <a href="#top" class="breadcrumb-link" id="home-breadcrumb-link">
+      <img src="logo-breadcrumbs.png" alt="" class="breadcrumb-logo">
+      MouseUtil
+    </a>
+  </div>
   <div class="top-bar">
     <div class="theme-switcher">
       <button id="theme-toggle" class="icon-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change theme">
@@ -262,5 +283,26 @@
   <div class="page-footer">© 2026 MouseUtil</div>
 
   <script src="theme.js"></script>
+  <script>
+  (function(){
+    var crumb = document.getElementById('home-breadcrumb');
+    var link = document.getElementById('home-breadcrumb-link');
+    var titleRow = document.querySelector('.header-row');
+    if (!crumb || !titleRow) return;
+
+    function onScroll(){
+      var threshold = titleRow.getBoundingClientRect().bottom + window.scrollY;
+      crumb.classList.toggle('visible', window.scrollY > threshold);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+  </script>
 </body>
 </html>

@@ -146,12 +146,12 @@ body{
    dropdown rather than a navigating link. */
 #theme-toggle:hover{
   border-color: var(--icon-accent);
-  background: color-mix(in srgb, var(--icon-accent) 15%, transparent);
+  background: linear-gradient(color-mix(in srgb, var(--icon-accent) 15%, transparent), color-mix(in srgb, var(--icon-accent) 15%, transparent)), var(--card);
   color: var(--icon-accent);
 }
 #theme-toggle:active{
   border-color: var(--icon-accent);
-  background: color-mix(in srgb, var(--icon-accent) 28%, transparent);
+  background: linear-gradient(color-mix(in srgb, var(--icon-accent) 28%, transparent), color-mix(in srgb, var(--icon-accent) 28%, transparent)), var(--card);
   color: var(--icon-accent);
 }
 
