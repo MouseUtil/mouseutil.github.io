@@ -264,6 +264,7 @@
   /* ============ MODES ============ */
   .modes{ padding:88px 0; border-top:1px solid var(--border); }
   .section-head{ max-width:600px; margin:0 0 44px; }
+  .mobile-break{ display:none; }
   .section-head h2{
     font-size:clamp(26px, 3vw, 34px);
     font-weight:700;
@@ -357,13 +358,14 @@
   .shots{ padding:88px 0; border-top:1px solid var(--border); }
   .shots-head{
     display:flex;
-    align-items:flex-end;
+    align-items:center;
     justify-content:space-between;
     gap:24px;
     margin-bottom:36px;
     flex-wrap:wrap;
   }
   .shots-head .section-head{ margin:0; }
+  .shots-head .section-head h2{ margin:0; }
   .shots-link{
     display:inline-flex;
     align-items:center;
@@ -459,6 +461,7 @@
     position:relative;
     z-index:1;
   }
+  .cta-caption-short{ display:none; }
   .cta-card .cta-row{
     justify-content:center;
     margin-bottom:0;
@@ -499,11 +502,14 @@
     .feat-grid{ grid-template-columns:1fr; }
     .shot-row{ grid-template-columns:repeat(2, 1fr); gap:10px; }
     .mockup-frame{ width:100%; }
-    .mockup-spiral{ top:-130px; right:-40px; }
+    .mockup-spiral{ top:-130px; right:-40px; -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, black 40%, black 100%); mask-image:linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, black 40%, black 100%); }
     .shots-arrow.shots-prev{ left:-14px; }
     .shots-arrow.shots-next{ right:-14px; }
     .dl-label-full{ display:none; }
     .dl-label-short{ display:inline; }
+    .mobile-break{ display:block; }
+    .cta-caption-full{ display:none; }
+    .cta-caption-short{ display:inline; }
   }
 </style>
 </head>
@@ -619,7 +625,7 @@
   <section class="modes">
     <div class="shell">
       <div class="section-head">
-        <h2 class="display">One timer, two ways to use it</h2>
+        <h2 class="display">One timer, <br class="mobile-break">two ways to use it</h2>
       </div>
       <div class="mode-grid">
         <div class="mode-card click">
@@ -693,7 +699,7 @@
         </div>
         <a href="screenshots.html" class="shots-link">
           All screenshots
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
       <div class="shots-carousel">
@@ -731,7 +737,7 @@
           </svg>
         </div>
         <h2 class="display">Stop babysitting your screen.</h2>
-        <p>Get MouseUtil for Windows · v1.2.2 · 57.1 MB</p>
+        <p><span class="cta-caption-full">Get MouseUtil for Windows · v1.2.2 · 57.1 MB</span><span class="cta-caption-short">Get MouseUtil for Windows</span></p>
         <div class="cta-row">
           <div class="download-split" id="download-split-cta">
             <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="btn btn-primary" download id="download-trigger-cta" aria-haspopup="menu" aria-expanded="false">
