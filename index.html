@@ -235,7 +235,7 @@
   .mockup-frame{
     position:relative;
     z-index:1;
-    width:280px;
+    width:320px;
     border-radius:8px;
     overflow:hidden;
     background:var(--grad-card);
@@ -257,6 +257,7 @@
     opacity:0;
     transition:opacity .6s ease;
   }
+  .mockup-pair{ display:none; }
   .mockup-frame.light-shot{ display:none; }
   [data-theme="light"] .mockup-frame.dark-shot{ display:none; }
   [data-theme="light"] .mockup-frame.light-shot{ display:block; }
@@ -495,6 +496,20 @@
     .shots-arrow.shots-prev{ left:-28px; }
     .shots-arrow.shots-next{ right:-28px; }
   }
+  @media (min-width:601px) and (max-width:860px){
+    .mockup-single{ display:none; }
+    .mockup-pair{
+      display:flex;
+      gap:16px;
+      width:100%;
+      justify-content:flex-start;
+    }
+    .mockup-pair .mockup-frame{
+      width:auto;
+      flex:1 1 0;
+      max-width:300px;
+    }
+  }
   @media (max-width:600px){
     .shell{ padding:0 20px; }
     .hero{ padding:96px 0 56px; }
@@ -609,13 +624,27 @@
             <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="12" stroke-linecap="round"/>
           </g>
         </svg>
-        <div class="mockup-frame dark-shot">
+        <div class="mockup-frame mockup-single dark-shot">
           <img class="mockup-img mockup-img-a" id="mockup-dark-a" src="screenshots/dark-1.png" alt="MouseUtil auto click mode window" loading="lazy">
           <img class="mockup-img mockup-img-b" id="mockup-dark-b" src="screenshots/dark-2.png" alt="MouseUtil auto click mode window" loading="lazy">
         </div>
-        <div class="mockup-frame light-shot">
+        <div class="mockup-frame mockup-single light-shot">
           <img class="mockup-img mockup-img-a" id="mockup-light-a" src="screenshots/light-1.png" alt="MouseUtil auto click mode window" loading="lazy">
           <img class="mockup-img mockup-img-b" id="mockup-light-b" src="screenshots/light-2.png" alt="MouseUtil auto click mode window" loading="lazy">
+        </div>
+        <div class="mockup-pair">
+          <div class="mockup-frame dark-shot">
+            <img class="mockup-img" src="screenshots/dark-1.png" alt="MouseUtil auto click mode window" loading="lazy">
+          </div>
+          <div class="mockup-frame dark-shot">
+            <img class="mockup-img" src="screenshots/dark-2.png" alt="MouseUtil auto click mode window" loading="lazy">
+          </div>
+          <div class="mockup-frame light-shot">
+            <img class="mockup-img" src="screenshots/light-1.png" alt="MouseUtil auto click mode window" loading="lazy">
+          </div>
+          <div class="mockup-frame light-shot">
+            <img class="mockup-img" src="screenshots/light-2.png" alt="MouseUtil auto click mode window" loading="lazy">
+          </div>
         </div>
       </div>
     </div>
