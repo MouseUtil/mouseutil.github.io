@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MouseUtil — keeps your PC awake, without lifting a finger</title>
+<title>MouseUtil — Auto-Clicker and Mouse Jiggler</title>
 <meta name="description" content="MouseUtil is a free, open-source Windows utility that clicks or spins your cursor on a timer, so your PC never goes idle, locks, or sleeps.">
 <link rel="stylesheet" href="theme.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -421,7 +421,19 @@
     padding:56px 48px;
     text-align:center;
     position:relative;
+  }
+  /* Clips the decorative squiggle to the card's rounded corners without
+     clipping the rest of the card — overflow:hidden used to live on
+     .cta-card itself, but that also clipped the download dropdown
+     (.download-menu) on mobile, hiding the GitHub option below the fold
+     of the card. Isolating the clip to this inset layer fixes that. */
+  .cta-card .cta-squiggle-clip{
+    position:absolute;
+    inset:0;
+    border-radius:20px;
     overflow:hidden;
+    pointer-events:none;
+    z-index:0;
   }
   .cta-card .cta-squiggle{
     position:absolute;
@@ -711,11 +723,13 @@
   <section class="cta-band">
     <div class="shell">
       <div class="cta-card">
-        <svg class="cta-squiggle" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <g transform="translate(62.94,8.3) scale(0.82)">
-            <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
-          </g>
-        </svg>
+        <div class="cta-squiggle-clip">
+          <svg class="cta-squiggle" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(62.94,8.3) scale(0.82)">
+              <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
         <h2 class="display">Stop babysitting your screen.</h2>
         <p>Get MouseUtil for Windows · v1.2.2 · 57.1 MB</p>
         <div class="cta-row">
