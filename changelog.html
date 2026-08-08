@@ -187,6 +187,10 @@
       transform:translateY(-50%);
     }
   }
+
+  /* ============ FOOTER ============ */
+  /* shared footer styles live in theme.css; this page's content column is narrower */
+  .footer-inner{ max-width:760px; }
 </style>
 </head>
 <body>
@@ -335,7 +339,26 @@
 
   </div>
 
-  <div class="page-footer">© 2026 MouseUtil</div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-row">
+        <a href="index.html" class="footer-brand">
+          <img src="logo-breadcrumbs.png" alt="">
+          MouseUtil
+        </a>
+        <div class="footer-links">
+          <a href="features.html">Features</a>
+          <a href="screenshots.html">Screenshots</a>
+          <a href="changelog.html">Change log</a>
+          <a href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MouseUtil</span>
+        <span>Free and open source, for Windows 10/11.</span>
+      </div>
+    </div>
+  </footer>
 
   <script src="theme.js"></script>
   <script>

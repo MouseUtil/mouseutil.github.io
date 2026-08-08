@@ -67,7 +67,7 @@
   .shot{
     aspect-ratio:582/855;
     border:1px dashed var(--border);
-    border-radius:10px;
+    border-radius:8px;
     background:var(--card);
     display:flex;
     align-items:center;
@@ -135,6 +135,13 @@
     .grid{grid-template-columns:1fr;}
     .wrap{padding:48px 20px 48px;}
     h1{font-size:34px;}
+  }
+
+  /* ============ FOOTER ============ */
+  /* shared footer styles live in theme.css; this page's content column is wider */
+  .footer-inner{ max-width:1440px; padding:0 40px; }
+  @media (max-width:640px){
+    .footer-inner{ padding:0 20px; }
   }
 </style>
 </head>
@@ -212,7 +219,26 @@
     </button>
   </dialog>
 
-  <div class="page-footer">© 2026 MouseUtil</div>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-row">
+        <a href="index.html" class="footer-brand">
+          <img src="logo-breadcrumbs.png" alt="">
+          MouseUtil
+        </a>
+        <div class="footer-links">
+          <a href="features.html">Features</a>
+          <a href="screenshots.html">Screenshots</a>
+          <a href="changelog.html">Change log</a>
+          <a href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 MouseUtil</span>
+        <span>Free and open source, for Windows 10/11.</span>
+      </div>
+    </div>
+  </footer>
 
   <script src="theme.js"></script>
   <script>

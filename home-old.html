@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MouseUtil</title>
+<link rel="stylesheet" href="theme.css">
+<script>
+(function(){
+  try{
+    var p = localStorage.getItem('mouseutil-theme');
+    var eff = (p === 'light' || p === 'dark') ? p : (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    document.documentElement.setAttribute('data-theme', eff);
+  }catch(e){}
+})();
+</script>
+<style>
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height:1.6;
+  }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:72px 24px 64px;
+  }
+  .icon{
+    width:128px;
+    height:128px;
+    display:block;
+    margin-bottom:0px;
+  }
+  .header-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    margin-bottom:6px;
+  }
+  h1{
+    font-size:clamp(26px, 9vw, 44px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    margin:0;
+    min-width:0;
+  }
+  .download-block{
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .meta{
+    color:var(--muted);
+    font-size:14px;
+    margin:6px 0 32px;
+    text-align:center;
+  }
+  .download-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text);
+    padding:10px 18px;
+    border-radius:8px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .download-btn:hover{
+    border-color:var(--green);
+    background:rgba(79,174,99,0.15);
+  }
+  .download-btn:active{
+    border-color:var(--green);
+    background:rgba(79,174,99,0.28);
+  }
+  .download-btn svg{
+    width:20px;
+    height:20px;
+    stroke:var(--green);
+  }
+  p{
+    color:var(--text-secondary);
+    margin:0 0 16px;
+    font-size:16px;
+  }
+  p strong{
+    color:var(--text);
+  }
+  .divider{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:0 0 28px;
+  }
+  .nav-links{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    margin:32px 0 36px;
+  }
+  .nav-links a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--text);
+    text-decoration:none;
+    font-size:15px;
+    font-weight:600;
+  }
+  .nav-links a:hover{
+    color:var(--muted);
+  }
+  .nav-links svg{
+    width:16px;
+    height:16px;
+    stroke:var(--muted);
+    fill:var(--muted);
+    flex-shrink:0;
+  }
+  .nav-links svg[stroke-width]{
+    fill:none;
+  }
+  h2{
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin:0 0 22px;
+  }
+  .release{
+    margin-bottom:36px;
+  }
+  .release-title{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .latest{
+    color:var(--green);
+    font-weight:600;
+    font-size:15px;
+  }
+  ul{
+    margin:0;
+    padding-left:22px;
+    color:var(--text-secondary);
+  }
+  li{
+    margin-bottom:12px;
+    font-size:16px;
+  }
+  @media (max-width:600px){
+    .wrap{padding:48px 20px 48px;}
+  }
+
+  /* Homepage breadcrumb: hidden until the user scrolls past the logo/title,
+     then fades in. Acts as a "scroll to top" shortcut rather than a link. */
+  #home-breadcrumb{
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .2s ease, visibility .2s ease;
+  }
+  #home-breadcrumb.visible{
+    opacity:1;
+    visibility:visible;
+  }
+  #home-breadcrumb .breadcrumb-link{
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="breadcrumb" id="home-breadcrumb">
+    <a href="#top" class="breadcrumb-link" id="home-breadcrumb-link">
+      <img src="logo-breadcrumbs.png" alt="" class="breadcrumb-logo">
+      MouseUtil
+    </a>
+  </div>
+  <div class="top-bar">
+    <div class="theme-switcher">
+      <button id="theme-toggle" class="icon-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Change theme">
+        <span class="theme-icon" aria-hidden="true"></span>
+      </button>
+      <div class="theme-menu" id="theme-menu" role="listbox">
+        <button class="theme-option" data-value="light" role="option" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><line x1="12" y1="2" x2="12" y2="4"></line><line x1="12" y1="20" x2="12" y2="22"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="2" y1="12" x2="4" y2="12"></line><line x1="20" y1="12" x2="22" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <span>Light</span>
+        </button>
+        <button class="theme-option" data-value="dark" role="option" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <span>Dark</span>
+        </button>
+        <button class="theme-option" data-value="system" role="option" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          <span>System</span>
+        </button>
+      </div>
+    </div>
+    <a href="https://github.com/MouseUtil/MouseUtil" class="icon-btn" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+  </div>
+  <div class="wrap">
+    <img src="mouseutil_logo.png" alt="MouseUtil" class="icon">
+
+    <div class="header-row">
+      <h1>MouseUtil</h1>
+    </div>
+
+    <div class="download-block">
+      <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="download-btn" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12"/>
+          <path d="M7 10l5 5 5-5"/>
+          <path d="M5 21h14"/>
+        </svg>
+        Download
+      </a>
+      <div class="meta">57.1 MB, zip, v1.2.2</div>
+    </div>
+
+    <p>A native Windows 11 mouse-activity utility built with WinUI 3 (Windows App SDK) and .NET 8. It runs in one of two modes on a custom timer:</p>
+
+    <p><strong>Auto click</strong> — clicks at wherever the cursor currently is without moving it. Great for repetitive clicking tasks, keeping certain applications active, or automating simple interactions.</p>
+
+    <p><strong>Spin mode</strong> — sweeps the cursor around a tiny circle and returns it to the exact starting pixel, without clicking. Useful for keeping a machine from going idle/locking/sleeping.</p>
+
+    <div class="nav-links">
+      <a href="features.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        Features
+      </a>
+      <a href="screenshots.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+          <circle cx="8.5" cy="8.5" r="1.5"></circle>
+          <path d="M21 15l-5-5L5 21"></path>
+        </svg>
+        Screenshots
+      </a>
+      <a href="changelog.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6" x2="21" y2="6"></line>
+          <line x1="8" y1="12" x2="21" y2="12"></line>
+          <line x1="8" y1="18" x2="21" y2="18"></line>
+          <line x1="3" y1="6" x2="3" y2="6"></line>
+          <line x1="3" y1="12" x2="3" y2="12"></line>
+          <line x1="3" y1="18" x2="3" y2="18"></line>
+        </svg>
+        Change log
+      </a>
+    </div>
+
+    <h2>Release notes</h2>
+    <hr class="divider">
+
+    <div class="release">
+      <div class="release-title">
+        MouseUtil 1.2.2 <span class="latest">Latest</span>
+      </div>
+      <ul>
+        <li>Fixed timer drift – actions fired slightly less often than the configured interval, with the gap growing the longer the automation ran, especially over long sessions.</li>
+        <li>Fixed a smaller residual drift specific to Spin mode, where the spin animation's own duration was silently added on top of each interval instead of counting toward it.</li>
+        <li>The installer's window title bar now displays "MouseUtil" instead of "MouseUtil version 1.x.x".</li>
+        <li>The installer now has a Welcome screen, showing the version number there instead.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="page-footer">© 2026 MouseUtil</div>
+
+  <script src="theme.js"></script>
+  <script>
+  (function(){
+    var crumb = document.getElementById('home-breadcrumb');
+    var link = document.getElementById('home-breadcrumb-link');
+    var titleRow = document.querySelector('.header-row');
+    if (!crumb || !titleRow) return;
+
+    function onScroll(){
+      var threshold = titleRow.getBoundingClientRect().bottom + window.scrollY;
+      crumb.classList.toggle('visible', window.scrollY > threshold);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+  </script>
+</body>
+</html>
