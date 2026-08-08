@@ -157,6 +157,53 @@
     color:var(--text);
   }
   .btn-ghost:hover{ border-color:var(--muted); background:var(--hover-bg); }
+
+  /* Download split button: on desktop this is just a plain .btn-primary
+     link with the usual download behavior. On mobile/small screens, JS
+     turns the same button into a dropdown trigger (see .download-menu
+     below) offering a choice between the direct .zip and the GitHub
+     releases page — mirroring the theme switcher's dropdown pattern. */
+  .download-split{ position:relative; }
+  .dl-label-short{ display:none; }
+  .download-menu{
+    position:absolute;
+    top:100%;
+    left:0;
+    margin-top:8px;
+    min-width:220px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:6px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    box-shadow:0 10px 28px var(--shadow);
+    z-index:1000;
+  }
+  .download-menu.open{ display:flex; }
+  .download-option{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 10px;
+    border-radius:7px;
+    border:none;
+    background:transparent;
+    color:var(--text);
+    font-family:inherit;
+    font-size:14px;
+    font-weight:500;
+    text-decoration:none;
+    cursor:pointer;
+    text-align:left;
+    width:100%;
+  }
+  .download-option:hover{ background:var(--hover-bg); }
+  .download-option svg{ width:16px; height:16px; flex-shrink:0; }
+  /* Windows logo icon on the "Download for Windows" dropdown option:
+     always blue regardless of theme, per design request. */
+  .download-option .win-logo-icon{ transform:scale(1.2); }
   .hero-meta{
     display:flex;
     flex-wrap:wrap;
@@ -443,6 +490,8 @@
     .mockup-spiral{ top:-130px; right:-40px; }
     .shots-arrow.shots-prev{ left:-14px; }
     .shots-arrow.shots-next{ right:-14px; }
+    .dl-label-full{ display:none; }
+    .dl-label-short{ display:inline; }
   }
 </style>
 </head>
@@ -492,12 +541,33 @@
         <h1 class="display">Keeps your PC awake.<span class="brk">Without lifting a finger.</span></h1>
         <p class="hero-lede">MouseUtil clicks or spins your cursor on a timer, so Windows never marks you idle — through long calls, slow downloads, or AFK stretches.</p>
         <div class="cta-row">
-          <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="btn btn-primary" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
-            </svg>
-            Download for Windows
-          </a>
+          <div class="download-split" id="download-split-hero">
+            <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="btn btn-primary" download id="download-trigger-hero" aria-haspopup="menu" aria-expanded="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
+              </svg>
+              <span class="dl-label-full">Download for Windows</span>
+              <span class="dl-label-short">Download</span>
+            </a>
+            <div class="download-menu" id="download-menu-hero" role="menu">
+              <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="download-option" download role="menuitem">
+                <svg class="win-logo-icon" viewBox="0 0 24 24">
+                  <defs>
+                    <linearGradient id="win-logo-gradient-hero" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#4FB2F0"/>
+                      <stop offset="100%" stop-color="#0078D4"/>
+                    </linearGradient>
+                  </defs>
+                  <path fill="url(#win-logo-gradient-hero)" d="M4,2.5 L11,2.5 L11,11 L2.5,11 L2.5,4 A1.5,1.5 0 0 1 4,2.5 Z M12.5,2.5 L19.5,2.5 A1.5,1.5 0 0 1 21,4 L21,11 L12.5,11 L12.5,2.5 Z M2.5,12.5 L11,12.5 L11,21 L4,21 A1.5,1.5 0 0 1 2.5,19.5 L2.5,12.5 Z M12.5,12.5 L21,12.5 L21,19.5 A1.5,1.5 0 0 1 19.5,21 L12.5,21 L12.5,12.5 Z"/>
+                </svg>
+                <span>Download for Windows</span>
+              </a>
+              <a href="https://github.com/MouseUtil/MouseUtil/releases" class="download-option" target="_blank" rel="noopener noreferrer" role="menuitem">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>Download from GitHub</span>
+              </a>
+            </div>
+          </div>
           <a href="https://github.com/MouseUtil/MouseUtil" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             View source
@@ -649,12 +719,32 @@
         <h2 class="display">Stop babysitting your screen.</h2>
         <p>Get MouseUtil for Windows · v1.2.2 · 57.1 MB</p>
         <div class="cta-row">
-          <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="btn btn-primary" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
-            </svg>
-            Download
-          </a>
+          <div class="download-split" id="download-split-cta">
+            <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="btn btn-primary" download id="download-trigger-cta" aria-haspopup="menu" aria-expanded="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
+              </svg>
+              Download
+            </a>
+            <div class="download-menu" id="download-menu-cta" role="menu">
+              <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.2.2/MouseUtilSetup_1.2.2.zip" class="download-option" download role="menuitem">
+                <svg class="win-logo-icon" viewBox="0 0 24 24">
+                  <defs>
+                    <linearGradient id="win-logo-gradient-cta" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#4FB2F0"/>
+                      <stop offset="100%" stop-color="#0078D4"/>
+                    </linearGradient>
+                  </defs>
+                  <path fill="url(#win-logo-gradient-cta)" d="M2.5 2.5h8.5v8.5H2.5zM12.5 2.5h8.5v8.5h-8.5zM2.5 12.5h8.5v8.5H2.5zM12.5 12.5h8.5v8.5h-8.5z"/>
+                </svg>
+                <span>Download for Windows</span>
+              </a>
+              <a href="https://github.com/MouseUtil/MouseUtil/releases" class="download-option" target="_blank" rel="noopener noreferrer" role="menuitem">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>Download from GitHub</span>
+              </a>
+            </div>
+          </div>
           <a href="features.html" class="btn btn-ghost">See all features</a>
         </div>
       </div>
@@ -811,6 +901,78 @@
       }
     });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+  </script>
+
+  <script>
+  // Download split buttons (hero + CTA band): on desktop these are plain
+  // download links. On mobile/small screens (same breakpoint as the
+  // "Download for Windows" -> "Download" label swap), clicking the button
+  // opens a small dropdown instead of downloading immediately, offering a
+  // choice between the direct .zip and the GitHub releases page. Mirrors
+  // the theme switcher's open/close/outside-click pattern.
+  (function () {
+    var MOBILE_QUERY = '(max-width:600px)';
+    var isMobile = function () { return window.matchMedia(MOBILE_QUERY).matches; };
+
+    var splits = [
+      { trigger: 'download-trigger-hero', menu: 'download-menu-hero' },
+      { trigger: 'download-trigger-cta', menu: 'download-menu-cta' }
+    ];
+
+    var openMenus = [];
+
+    function closeMenu(menu, trigger) {
+      menu.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function closeAll() {
+      openMenus.forEach(function (pair) { closeMenu(pair.menu, pair.trigger); });
+    }
+
+    splits.forEach(function (ids) {
+      var trigger = document.getElementById(ids.trigger);
+      var menu = document.getElementById(ids.menu);
+      if (!trigger || !menu) return;
+
+      openMenus.push({ trigger: trigger, menu: menu });
+
+      trigger.addEventListener('click', function (e) {
+        if (!isMobile()) return; // desktop: let the link download as normal
+        e.preventDefault();
+        var isOpen = menu.classList.contains('open');
+        closeAll();
+        if (!isOpen) {
+          menu.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      menu.querySelectorAll('.download-option').forEach(function (opt) {
+        opt.addEventListener('click', function () {
+          closeMenu(menu, trigger);
+        });
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      openMenus.forEach(function (pair) {
+        if (!pair.menu.contains(e.target) && e.target !== pair.trigger && !pair.trigger.contains(e.target)) {
+          closeMenu(pair.menu, pair.trigger);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+
+    // If the viewport is resized past the breakpoint into desktop width
+    // while a dropdown is open, close it so it doesn't linger.
+    window.matchMedia(MOBILE_QUERY).addEventListener('change', function (e) {
+      if (!e.matches) closeAll();
+    });
   })();
   </script>
 </body>
