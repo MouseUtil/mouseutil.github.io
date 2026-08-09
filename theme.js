@@ -1,6 +1,27 @@
 // Shared theme switcher for all MouseUtil pages.
 // Opens a dropdown with Light / Dark / System. Persists the choice in
 // localStorage so it syncs across every page (and browser tabs) on this site.
+// Shared registry so any dropdown on a page (theme switcher, download
+// split-button, changelog jump-menu, etc.) can close every *other* open
+// dropdown before it opens itself. Without this, opening a second dropdown
+// left the first one open behind it (only clicking outside all of them, or
+// re-clicking their own trigger, would close a given one). Loaded once here
+// since theme.js is included on every page before any page-specific
+// dropdown script.
+window.MouseUtilDropdowns = window.MouseUtilDropdowns || (function () {
+  var closers = [];
+  return {
+    register: function (closeFn) {
+      closers.push(closeFn);
+    },
+    closeOthers: function (exceptFn) {
+      closers.forEach(function (fn) {
+        if (fn !== exceptFn) fn();
+      });
+    }
+  };
+})();
+
 (function () {
   var STORAGE_KEY = 'mouseutil-theme';
   var media = window.matchMedia('(prefers-color-scheme: light)');
@@ -68,11 +89,14 @@
     var menu = document.getElementById('theme-menu');
 
     if (btn && menu) {
+      window.MouseUtilDropdowns.register(closeMenu);
+
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         if (menu.classList.contains('open')) {
           closeMenu();
         } else {
+          window.MouseUtilDropdowns.closeOthers(closeMenu);
           openMenu();
         }
       });
@@ -96,6 +120,13 @@
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closeMenu();
       });
+
+      // Close on scroll, like every other dropdown on the site (the
+      // changelog page's own releases dropdown is the one exception, and
+      // keeps its existing scroll-driven pin/unpin behavior instead).
+      window.addEventListener('scroll', function () {
+        if (menu.classList.contains('open')) closeMenu();
+      }, { passive: true });
     }
 
     // Keep in sync if the OS-level light/dark preference changes while "System" is active.

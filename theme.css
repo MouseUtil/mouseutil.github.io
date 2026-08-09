@@ -123,9 +123,6 @@ body{
 .icon-btn:hover{
   border-color: var(--icon-accent);
 }
-.icon-btn:active{
-  transform: scale(0.96);
-}
 .icon-btn svg{
   width: 18px;
   height: 18px;

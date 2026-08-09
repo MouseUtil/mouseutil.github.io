@@ -982,6 +982,10 @@
       openMenus.forEach(function (pair) { closeMenu(pair.menu, pair.trigger); });
     }
 
+    // Let other dropdowns on the page (e.g. the theme switcher) close
+    // themselves when one of these opens, and vice versa.
+    if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.register(closeAll);
+
     splits.forEach(function (ids) {
       var trigger = document.getElementById(ids.trigger);
       var menu = document.getElementById(ids.menu);
@@ -995,6 +999,7 @@
         var isOpen = menu.classList.contains('open');
         closeAll();
         if (!isOpen) {
+          if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.closeOthers(closeAll);
           menu.classList.add('open');
           trigger.setAttribute('aria-expanded', 'true');
         }
@@ -1018,6 +1023,9 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') closeAll();
     });
+
+    // Close on scroll, matching the theme switcher's dropdown behavior.
+    window.addEventListener('scroll', closeAll, { passive: true });
 
     // If the viewport is resized past the breakpoint into desktop width
     // while a dropdown is open, close it so it doesn't linger.

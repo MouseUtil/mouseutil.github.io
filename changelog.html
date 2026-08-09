@@ -45,6 +45,17 @@
     position:relative;
     flex-shrink:0;
   }
+  /* On this page the theme dropdown opens below the button (matching the
+     releases jump-menu direction) instead of the site-wide left-opening
+     default in theme.css. #theme-menu's id specificity wins over the
+     .theme-menu class rules there, including their mobile media query. */
+  #theme-menu{
+    top:100%;
+    right:0;
+    left:auto;
+    margin-right:0;
+    margin-top:8px;
+  }
   #changelog-menu-toggle:hover{
     border-color: var(--icon-accent);
     background: linear-gradient(color-mix(in srgb, var(--icon-accent) 15%, transparent), color-mix(in srgb, var(--icon-accent) 15%, transparent)), var(--card);
@@ -452,11 +463,14 @@
     window.addEventListener('resize', update);
     update();
 
+    if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.register(closeMenu);
+
     toggle.addEventListener('click', function(e){
       e.stopPropagation();
       var isOpen = menu.classList.contains('open');
       if (isOpen) closeMenu();
       else {
+        if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.closeOthers(closeMenu);
         menu.classList.add('open');
         toggle.setAttribute('aria-expanded', 'true');
       }
