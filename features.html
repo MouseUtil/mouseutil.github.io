@@ -58,7 +58,7 @@
   }
 
   /* ============ HERO ============ */
-  .hero{ margin-bottom:28px; }
+  .hero{ margin-bottom:40px; }
   .eyebrow{
     font-size:13px;
     font-weight:700;
@@ -70,147 +70,16 @@
   .hero-sub{
     font-size:17px;
     max-width:600px;
-    margin-bottom:0;
-  }
-  .demo-intro{
-    font-size:15px;
-    margin:0 0 18px;
-  }
-
-  /* ============ LIVE DEMO ============ */
-  .demo-panel{
-    margin:28px 0 32px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:var(--card);
-    padding:22px 24px;
-    display:flex;
-    align-items:center;
-    gap:32px;
-  }
-  .demo-info{
-    flex:1;
-    min-width:0;
-  }
-  .demo-tabs{
-    display:flex;
-    gap:8px;
-    margin-bottom:16px;
-  }
-  .demo-tab{
-    flex:1;
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid var(--border);
-    background:transparent;
-    color:var(--text-secondary);
-    font-family:inherit;
-    font-size:14px;
-    font-weight:700;
-    cursor:pointer;
-    transition:border-color .15s ease, background .15s ease, color .15s ease;
-  }
-  .demo-tab:hover{
-    border-color:var(--hover-border);
-  }
-  .demo-tab.active{
-    color:var(--text);
-    border-color:var(--icon-accent);
-    background:linear-gradient(color-mix(in srgb, var(--icon-accent) 12%, transparent), color-mix(in srgb, var(--icon-accent) 12%, transparent)), var(--card);
-  }
-  .demo-stage{
-    position:relative;
-    width:280px;
-    height:180px;
-    flex-shrink:0;
-    border-radius:8px;
-    border:1px dashed var(--border);
-    background:var(--bg);
-    overflow:hidden;
-  }
-  .demo-mode{
-    position:absolute;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-  }
-  .demo-mode.active{ display:flex; }
-  .cursor-icon, .cursor-icon-orbit{
-    width:22px;
-    height:22px;
-    color:var(--text);
-    position:relative;
-    z-index:2;
-  }
-  /* --- Auto click demo: cursor stays put, ripple pulses outward --- */
-  .cursor-icon{
-    animation:cursor-press 2s ease-in-out infinite;
-  }
-  .click-ripple{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:14px;
-    height:14px;
-    border-radius:50%;
-    border:2px solid var(--icon-accent);
-    transform:translate(-50%,-50%) scale(0.4);
-    opacity:0;
-    animation:click-ripple 2s ease-out infinite;
-  }
-  .click-ripple.r2{ animation-delay:1s; }
-  @keyframes click-ripple{
-    0%{ transform:translate(-50%,-50%) scale(0.4); opacity:.8; }
-    70%{ opacity:0; }
-    100%{ transform:translate(-50%,-50%) scale(3.4); opacity:0; }
-  }
-  @keyframes cursor-press{
-    0%,100%{ transform:scale(1); }
-    8%{ transform:scale(0.8); }
-    18%{ transform:scale(1); }
-  }
-  /* --- Spin mode demo: cursor sweeps a small circle, orientation held level --- */
-  .orbit-wrap{
-    position:relative;
-    width:64px;
-    height:64px;
-  }
-  .orbit-track{
-    position:absolute;
-    inset:0;
-    border:1px dashed var(--border);
-    border-radius:50%;
-  }
-  .orbit-rotor{
-    position:absolute;
-    inset:0;
-    animation:orbit-spin 2.4s linear infinite;
-  }
-  .cursor-icon-orbit{
-    position:absolute;
-    top:-9px;
-    left:50%;
-    transform:translate(-50%,0);
-    animation:orbit-counter 2.4s linear infinite;
-  }
-  @keyframes orbit-spin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
-  }
-  @keyframes orbit-counter{
-    from{ transform:translate(-50%,0) rotate(0deg); }
-    to{ transform:translate(-50%,0) rotate(-360deg); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    .cursor-icon, .click-ripple, .orbit-rotor, .cursor-icon-orbit{
-      animation:none !important;
-    }
-  }
-  .demo-caption{
+    width:min(600px, 100%);
+    flex:0 0 auto;
     margin:0;
-    font-size:14px;
-    color:var(--muted);
+  }
+  .hero-row{
+    display:flex;
+    align-items:stretch;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-top:18px;
   }
 
   /* ============ OPEN SOURCE CARD ============ */
@@ -219,16 +88,16 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:24px;
+    gap:20px;
     background:var(--card);
     border:1px solid var(--border);
     border-radius:10px;
-    padding:24px 28px;
-    margin-bottom:40px;
+    padding:20px 22px;
     overflow:hidden;
     text-decoration:none;
     color:inherit;
     transition:border-color .15s ease, background .15s ease;
+    flex:0 0 calc((100% - 32px)/3);
   }
   .oss-card:hover{
     border-color:var(--hover-border);
@@ -246,6 +115,15 @@
   .oss-card .sub{
     color:var(--muted);
     font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+  }
+  .oss-card .sub-icon{
+    width:13px;
+    height:13px;
+    flex-shrink:0;
+    color:inherit;
   }
   .oss-card-logo{
     position:absolute;
@@ -353,18 +231,14 @@
   @media (max-width:860px){
     .feature-grid{grid-template-columns:repeat(2, 1fr);}
     .callout-row{grid-template-columns:1fr;}
-  }
-  @media (max-width:680px){
-    .demo-panel{flex-direction:column;}
-    .demo-stage{width:100%;}
+    .oss-card{flex-basis:calc((100% - 16px)/2);}
   }
   @media (max-width:600px){
     h1{font-size:34px;}
     .wrap{padding:48px 20px 48px;}
-    .oss-card{padding:20px;}
+    .oss-card{padding:20px; flex-basis:100%;}
     .oss-card-logo{width:90px;height:90px;right:-16px;bottom:-16px;}
     .feature-grid{grid-template-columns:1fr;}
-    .demo-tabs{flex-direction:column;}
   }
 
   /* ============ FOOTER ============ */
@@ -407,43 +281,38 @@
   <div class="wrap">
 
     <div class="hero">
-      <p class="eyebrow">Windows 10/11 · Free &amp; open source</p>
       <h1>Features</h1>
-    </div>
-
-    <div class="demo-panel">
-      <div class="demo-info">
-        <p class="demo-intro"><strong>MouseUtil</strong> is a free, open source Windows utility that clicks or jiggles your cursor on a timer, so calls, downloads, and AFK sessions don't get cut short by idle, lock, or sleep. Native on Windows 10/11, built with WinUI 3 and .NET 8.</p>
-        <div class="demo-tabs" role="tablist" aria-label="MouseUtil automation modes">
-          <button type="button" class="demo-tab active" data-mode="demo-click" data-caption="Automatically clicks where the mouse pointer is." role="tab" aria-selected="true">Auto click</button>
-          <button type="button" class="demo-tab" data-mode="demo-spin" data-caption="Sweeps in a tiny circle and lands back on the exact starting pixel." role="tab" aria-selected="false">Spin mode</button>
-        </div>
-        <p class="demo-caption" id="demo-caption">Automatically clicks where the mouse pointer is.</p>
-      </div>
-      <div class="demo-stage">
-        <div class="demo-mode active" id="demo-click">
-          <div class="click-ripple"></div>
-          <div class="click-ripple r2"></div>
-          <svg class="cursor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"></path></svg>
-        </div>
-        <div class="demo-mode" id="demo-spin">
-          <div class="orbit-wrap">
-            <div class="orbit-track"></div>
-            <div class="orbit-rotor">
-              <svg class="cursor-icon-orbit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"></path></svg>
-            </div>
+      <p class="eyebrow">Windows 10/11 · Free &amp; open source</p>
+      <div class="hero-row">
+        <a class="oss-card" href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">
+          <div class="oss-card-text">
+            <div class="label">Open source</div>
+            <div class="sub">See project on GitHub <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></div>
           </div>
-        </div>
+          <svg class="oss-card-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <p class="hero-sub"><strong>MouseUtil</strong> is a free, open source Windows utility that clicks or jiggles your cursor on a timer, so calls, downloads, and AFK sessions don't get cut short by idle, lock, or sleep. Native on Windows 10/11, built with WinUI 3 and .NET 8.</p>
       </div>
     </div>
 
-    <a class="oss-card" href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">
-      <div class="oss-card-text">
-        <div class="label">Open source</div>
-        <div class="sub">See project on GitHub</div>
+    <div class="group">
+      <div class="group-head">
+        <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"></path></svg>
+        <h2>One timer, two ways to use it</h2>
       </div>
-      <svg class="oss-card-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-    </a>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>
+          <h3>Auto click</h3>
+          <p>Automatically clicks where the mouse pointer is, on the interval you set.</p>
+        </div>
+        <div class="feature-card">
+          <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
+          <h3>Spin mode</h3>
+          <p>Sweeps the cursor in a tiny circle and lands back on the exact starting pixel, no clicking involved.</p>
+        </div>
+      </div>
+    </div>
 
     <div class="group">
       <div class= "group-head">
@@ -585,23 +454,5 @@
   </footer>
 
   <script src="theme.js"></script>
-  <script>
-  (function(){
-    var tabs = document.querySelectorAll('.demo-tab');
-    var modes = document.querySelectorAll('.demo-mode');
-    var caption = document.getElementById('demo-caption');
-    tabs.forEach(function(tab){
-      tab.addEventListener('click', function(){
-        tabs.forEach(function(t){ t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
-        modes.forEach(function(m){ m.classList.remove('active'); });
-        tab.classList.add('active');
-        tab.setAttribute('aria-selected', 'true');
-        var target = document.getElementById(tab.getAttribute('data-mode'));
-        if (target) target.classList.add('active');
-        if (caption) caption.textContent = tab.getAttribute('data-caption');
-      });
-    });
-  })();
-  </script>
 </body>
 </html>
