@@ -24,7 +24,7 @@
     line-height:1.6;
   }
   .wrap{
-    max-width:760px;
+    max-width:1120px;
     margin:0 auto;
     padding:64px 24px 72px;
   }
@@ -180,6 +180,48 @@
   li:last-child{
     margin-bottom:0;
   }
+  /* ============ TWO-COLUMN LAYOUT (sidebar on regular screens) ============ */
+  .changelog-layout{
+    display:grid;
+    grid-template-columns:220px minmax(0,1fr);
+    gap:48px;
+    align-items:start;
+  }
+  .changelog-sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    position:sticky;
+    top:32px;
+  }
+  .sidebar-link{
+    display:block;
+    padding:8px 12px;
+    border-radius:8px;
+    color:var(--text-secondary);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    line-height:1.4;
+  }
+  .sidebar-link:hover{
+    background:var(--card);
+    color:var(--text);
+  }
+  .sidebar-link.active{
+    background:var(--card);
+    color:var(--text);
+    font-weight:700;
+  }
+  /* Hamburger + dropdown menu is the compact, small-screen equivalent of
+     the sidebar above; only one of the two is shown at a time. */
+  @media (min-width:861px){
+    .changelog-menu-wrap{ display:none; }
+  }
+  @media (max-width:860px){
+    .changelog-layout{ grid-template-columns:1fr; gap:0; }
+    .changelog-sidebar{ display:none; }
+  }
   @media (max-width:600px){
     h1{font-size:34px;}
     .wrap{padding:48px 20px 48px;}
@@ -200,8 +242,7 @@
   }
 
   /* ============ FOOTER ============ */
-  /* shared footer styles live in theme.css; this page's content column is narrower */
-  .footer-inner{ max-width:760px; }
+  /* shared footer styles live in theme.css, at the same 1120px width as this page */
 </style>
 </head>
 <body>
@@ -249,6 +290,7 @@
           </svg>
         </button>
         <div class="changelog-menu" id="changelog-menu" role="listbox">
+          <button class="theme-option" role="option" data-target="v1-3-0">MouseUtil 1.3.0</button>
           <button class="theme-option" role="option" data-target="v1-2-2">MouseUtil 1.2.2</button>
           <button class="theme-option" role="option" data-target="v1-2-1">MouseUtil 1.2.1</button>
           <button class="theme-option" role="option" data-target="v1-2-0">MouseUtil 1.2.0</button>
@@ -261,10 +303,44 @@
     </div>
     <hr class="divider">
 
-    <div class="entry latest" id="v1-2-2">
+    <div class="changelog-layout">
+      <nav class="changelog-sidebar" aria-label="Releases">
+        <a class="sidebar-link" href="#v1-3-0" data-target="v1-3-0">MouseUtil 1.3.0</a>
+        <a class="sidebar-link" href="#v1-2-2" data-target="v1-2-2">MouseUtil 1.2.2</a>
+        <a class="sidebar-link" href="#v1-2-1" data-target="v1-2-1">MouseUtil 1.2.1</a>
+        <a class="sidebar-link" href="#v1-2-0" data-target="v1-2-0">MouseUtil 1.2.0</a>
+        <a class="sidebar-link" href="#v1-1-2" data-target="v1-1-2">MouseUtil 1.1.2</a>
+        <a class="sidebar-link" href="#v1-1-1" data-target="v1-1-1">MouseUtil 1.1.1</a>
+        <a class="sidebar-link" href="#v1-1-0" data-target="v1-1-0">MouseUtil 1.1.0</a>
+        <a class="sidebar-link" href="#v1-0-0" data-target="v1-0-0">MouseUtil 1.0.0</a>
+      </nav>
+
+      <div class="changelog-entries">
+
+    <div class="entry latest" id="v1-3-0">
+      <div class="entry-head">
+        <span class="entry-icon icon-badge"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="23,12 19.85,8.75 19.78,4.22 15.25,4.15 12,1 8.75,4.15 4.22,4.22 4.15,8.75 1,12 4.15,15.25 4.22,19.78 8.75,19.85 12,23 15.25,19.85 19.78,19.78 19.85,15.25" fill="currentColor"></polygon><rect x="10.8" y="6.5" width="2.4" height="7.5" rx="1.2" fill="#fff"></rect><rect x="10.8" y="15.5" width="2.4" height="2.4" rx="1.2" fill="#fff"></rect></svg></span>
+        <span class="entry-title">MouseUtil 1.3.0 <span class="latest-tag">Latest</span></span>
+      </div>
+      <hr class="entry-divider">
+      <ul>
+        <li>Tray icon overhaul – 4 distinct states (Inactive/Active/Paused), a live status tooltip, and a context menu to start/stop/pause without opening the window.</li>
+        <li>Settings redesigned as a full in-window view (replacing the old flyout), reorganized into Interface/General/Update sections.</li>
+        <li>Check for updates: a manual button in Settings, plus an optional automatic check at launch.</li>
+        <li>Randomized interval: optionally vary the time between clicks/spins instead of using one fixed interval, with the randomized delay staying within the configured range.</li>
+        <li>Advanced interval view: optional Hours/Minutes/Seconds/Milliseconds fields instead of just Minutes/Seconds.</li>
+        <li>Smarter interval input: all interval fields (and the Auto Stop count field) now truncate, cap to sensible maximums, reject non-numeric characters as you type, and never sit blank.</li>
+        <li>Auto Stop's date/time summary now shows relative-day labels ("Today", "Tomorrow", etc.), and long countdowns display as minutes/hours instead of raw seconds.</li>
+        <li>Changed: Auto click's mode icon and the Automatically Stop button's icon were refreshed.</li>
+        <li>Fixed: the generic icon shown in Alt-Tab, Task View, and taskbar previews now correctly shows the app icon.</li>
+        <li>Fixed: recording a new hotkey no longer gets interrupted by the current hotkey firing Start/Stop.</li>
+      </ul>
+    </div>
+
+    <div class="entry" id="v1-2-2">
       <div class="entry-head">
         <span class="entry-icon icon-bug"><svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 2.5c-1.734 0-2.812 1.197-2.812 3.125h5.625C12.813 3.697 11.734 2.5 10 2.5m5 8.75h3.75V10H15V8.122c.856-.019 1.494-.294 2.113-.913l1.325-1.325L17.553 5l-1.325 1.325c-.406.406-.753.55-1.325.55h-4.278v10c1.922 0 3.322-.975 3.969-2.647l.481.481c.406.407.55.754.55 1.325v.841h1.25v-.84c0-.907-.275-1.57-.916-2.21l-1.018-1.019q.057-.445.059-.931zM3.772 6.325 2.447 5l-.885.884L2.889 7.21c.618.62 1.256.891 2.112.913V10H1.25v1.25H5v.625q.002.486.06.931l-1.02 1.019c-.64.64-.915 1.303-.915 2.21v.84h1.25v-.84c0-.572.144-.922.55-1.326l.481-.48c.65 1.671 2.047 2.646 3.969 2.646v-10H5.097c-.572 0-.922-.144-1.325-.55" fill="currentColor"/></svg></span>
-        <span class="entry-title">MouseUtil 1.2.2 <span class="latest-tag">Latest</span></span>
+        <span class="entry-title">MouseUtil 1.2.2</span>
       </div>
       <hr class="entry-divider">
       <ul>
@@ -344,8 +420,18 @@
       </div>
       <hr class="entry-divider">
       <ul>
-        <li>MouseUtil released</li>
+        <li>Two automation modes: Auto click, which sends a real left-click at a set interval, or Spin mode, which sweeps/jiggles the cursor in a tiny circle and returns it to its exact starting pixel.</li>
+        <li>Configurable interval: set the delay between actions (clicks or spins) in minutes and seconds.</li>
+        <li>Pause on manual movement (in Spin mode): if you touch the mouse yourself, MouseUtil automatically pauses and resumes on a fresh countdown once you stop, so it never fights you for control.</li>
+        <li>Auto-stop conditions: stop the run automatically after a set number of clicks/spins, or at a specific date and time.</li>
+        <li>Global hotkey: start or stop automation from anywhere with a single keypress (F6 by default), even while another app is focused.</li>
+        <li>Live status and progress: a real-time countdown ("Clicking in 12s") and an action counter.</li>
+        <li>Windows 11 native: Fluent design with light/dark/system theming. Built with WinUI 3 and .NET 8.</li>
+        <li>Persisted config file, so your interval, mode, hotkey, and preferences are remembered between sessions.</li>
       </ul>
+    </div>
+
+      </div>
     </div>
 
   </div>
@@ -494,6 +580,44 @@
         closeMenu();
       });
     });
+  })();
+  </script>
+  <script>
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('.sidebar-link'));
+    if (!links.length) return;
+
+    links.forEach(function(link){
+      link.addEventListener('click', function(e){
+        e.preventDefault();
+        var target = document.getElementById(link.getAttribute('data-target'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + link.getAttribute('data-target'));
+      });
+    });
+
+    var entries = links
+      .map(function(link){ return document.getElementById(link.getAttribute('data-target')); })
+      .filter(Boolean);
+
+    function setActive(id){
+      links.forEach(function(link){
+        link.classList.toggle('active', link.getAttribute('data-target') === id);
+      });
+    }
+
+    if ('IntersectionObserver' in window){
+      var observer = new IntersectionObserver(function(observed){
+        var visible = observed.filter(function(item){ return item.isIntersecting; });
+        if (visible.length){
+          visible.sort(function(a, b){ return a.boundingClientRect.top - b.boundingClientRect.top; });
+          setActive(visible[0].target.id);
+        }
+      }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+      entries.forEach(function(entry){ observer.observe(entry); });
+    } else {
+      setActive(entries.length ? entries[0].id : null);
+    }
   })();
   </script>
 </body>
