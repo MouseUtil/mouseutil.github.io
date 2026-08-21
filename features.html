@@ -190,6 +190,24 @@
     font-size:14px;
     margin:0;
   }
+  .feature-grid-modes{
+    grid-template-columns:repeat(2, 1fr);
+  }
+  .feature-grid-modes .feature-card{
+    padding:28px 30px;
+  }
+  .feature-grid-modes .feature-card .ficon{
+    width:34px;
+    height:34px;
+    margin-bottom:16px;
+  }
+  .feature-grid-modes .feature-card h3{
+    font-size:20px;
+    margin:0 0 10px;
+  }
+  .feature-grid-modes .feature-card p{
+    font-size:16px;
+  }
 
   ul{
     margin:0;
@@ -244,6 +262,7 @@
     .oss-card{padding:20px; flex-basis:100%;}
     .oss-card-logo{width:90px;height:90px;right:-16px;bottom:-16px;}
     .feature-grid{grid-template-columns:1fr;}
+    .feature-grid-modes{grid-template-columns:1fr;}
   }
 
   /* ============ FOOTER ============ */
@@ -295,7 +314,7 @@
         <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"></path></svg>
         <h2>Two main modes</h2></h2>
       </div>
-      <div class="feature-grid">
+      <div class="feature-grid feature-grid-modes">
         <div class="feature-card">
           <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>
           <h3>Auto click</h3>
