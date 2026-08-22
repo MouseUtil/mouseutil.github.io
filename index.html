@@ -493,9 +493,20 @@
     .mockup-spiral{ width:320px; height:320px; top:-40px; right:-30px; }
     .feat-grid{ grid-template-columns:repeat(2, 1fr); }
     .shot-row{ grid-template-columns:repeat(2, 1fr); }
-    .mode-grid{ grid-template-columns:1fr; }
+    .mode-grid{ grid-template-columns:1fr; gap:16px; }
     .shots-arrow.shots-prev{ left:-28px; }
     .shots-arrow.shots-next{ right:-28px; }
+
+    /* tablet: tighten the section rhythm so the gaps between
+       sections don't feel as oversized as they do on desktop */
+    .modes{ padding:60px 0; }
+    .features{ padding:60px 0; }
+    .shots{ padding:60px 0; }
+    .cta-band{ padding:56px 0 72px; }
+    .section-head{ margin-bottom:32px; }
+    .mode-card{ padding:24px; }
+    .feat{ padding:22px 20px; }
+    .cta-card{ padding:44px 36px; }
   }
   @media (min-width:601px) and (max-width:860px){
     .mockup-single{ display:none !important; }
@@ -517,6 +528,15 @@
     .cta-card{ padding:40px 24px; }
     .feat-grid{ grid-template-columns:1fr; }
     .shot-row{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+
+    /* phone: tighten further than the tablet breakpoint above */
+    .modes{ padding:44px 0; }
+    .features{ padding:44px 0; }
+    .shots{ padding:44px 0; }
+    .cta-band{ padding:40px 0 56px; }
+    .section-head{ margin-bottom:24px; }
+    .mode-card{ padding:20px; }
+    .feat{ padding:18px 16px; }
     .mockup-frame{ width:100%; }
     .mockup-spiral{ top:-130px; right:-40px; -webkit-mask-image:linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, black 40%, black 100%); mask-image:linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, black 40%, black 100%); }
     .shots-arrow.shots-prev{ left:-14px; }
