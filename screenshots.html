@@ -45,6 +45,89 @@
     border-top:1px solid var(--border);
     margin:0 0 28px;
   }
+  /* ============ HERO CAROUSEL ============ */
+  .hero-shots{
+    margin-bottom:56px;
+  }
+  .hero-shots-carousel{
+    position:relative;
+  }
+  .hero-shots-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+  }
+  .hero-shots-arrow.hero-shots-prev{ left:-56px; }
+  .hero-shots-arrow.hero-shots-next{ right:-56px; }
+  .hero-shots-arrow:active{ transform:translateY(-50%); }
+  /* The .wrap container maxes out at 1440px with 40px side padding, so
+     there's only ever guaranteed to be 40px of clearance outside the
+     carousel once the window is narrower than that. Below the width where
+     a 56px offset would actually have room, pull the arrows in so they
+     never get clipped by the viewport edge. */
+  @media (max-width:1472px){
+    .hero-shots-arrow.hero-shots-prev{ left:-32px; }
+    .hero-shots-arrow.hero-shots-next{ right:-32px; }
+  }
+  .hero-shot{
+    display:block;
+    padding:0;
+    border:none;
+    background:none;
+    font:inherit;
+    color:inherit;
+    cursor:pointer;
+  }
+  .hero-shot img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:4/3;
+    object-fit:cover;
+    border-radius:6px;
+    border:1px solid var(--border);
+    transition:border-color .15s ease;
+  }
+  .hero-shot:hover img{ border-color:var(--icon-accent); }
+
+  /* Desktop: two fixed rows (dark pair / light pair), only one shown. */
+  .hero-desktop-view{ display:block; }
+  .hero-row{
+    display:none;
+    grid-template-columns:repeat(2, 1fr);
+    gap:20px;
+    transition:transform .32s ease, opacity .32s ease;
+    transform:translateX(0);
+    opacity:1;
+  }
+  .hero-desktop-view[data-view="dark"] .hero-row.dark-row{ display:grid; }
+  .hero-desktop-view[data-view="light"] .hero-row.light-row{ display:grid; }
+  .hero-row.shots-shift-left{ transform:translateX(-18px); opacity:0; }
+  .hero-row.shots-shift-right{ transform:translateX(18px); opacity:0; }
+
+  /* Mobile: four fixed single-image slides, only one shown. */
+  .hero-mobile-view{ display:none; }
+  .hero-slide{
+    display:none;
+    transition:transform .32s ease, opacity .32s ease;
+    transform:translateX(0);
+    opacity:1;
+  }
+  .hero-mobile-view[data-view="0"] .hero-slide[data-slide="0"]{ display:block; }
+  .hero-mobile-view[data-view="1"] .hero-slide[data-slide="1"]{ display:block; }
+  .hero-mobile-view[data-view="2"] .hero-slide[data-slide="2"]{ display:block; }
+  .hero-mobile-view[data-view="3"] .hero-slide[data-slide="3"]{ display:block; }
+  .hero-slide.shots-shift-left{ transform:translateX(-18px); opacity:0; }
+  .hero-slide.shots-shift-right{ transform:translateX(18px); opacity:0; }
+
+  @media (max-width:640px){
+    .hero-shots-arrow.hero-shots-prev{ left:-14px; }
+    .hero-shots-arrow.hero-shots-next{ right:-14px; }
+    .hero-desktop-view{ display:none; }
+    .hero-mobile-view{ display:block; }
+  }
+
   .shots-sections{
     display:flex;
     flex-direction:column;
@@ -181,6 +264,35 @@
   <div class="wrap">
     <h1>Screenshots</h1>
 
+    <section class="hero-shots" id="hero-shots">
+      <h2>In action</h2>
+      <hr class="divider">
+      <div class="hero-shots-carousel">
+        <button type="button" class="icon-btn hero-shots-arrow hero-shots-prev" id="hero-shots-prev" aria-label="Show light mode screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="hero-desktop-view" id="hero-desktop-view" data-view="dark">
+          <div class="hero-row dark-row">
+            <button type="button" class="hero-shot" data-hero-index="0"><img src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy"></button>
+            <button type="button" class="hero-shot" data-hero-index="1"><img src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy"></button>
+          </div>
+          <div class="hero-row light-row">
+            <button type="button" class="hero-shot" data-hero-index="2"><img src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy"></button>
+            <button type="button" class="hero-shot" data-hero-index="3"><img src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy"></button>
+          </div>
+        </div>
+        <div class="hero-mobile-view" id="hero-mobile-view" data-view="0">
+          <div class="hero-slide" data-slide="0"><button type="button" class="hero-shot" data-hero-index="0"><img src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy"></button></div>
+          <div class="hero-slide" data-slide="1"><button type="button" class="hero-shot" data-hero-index="1"><img src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy"></button></div>
+          <div class="hero-slide" data-slide="2"><button type="button" class="hero-shot" data-hero-index="2"><img src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy"></button></div>
+          <div class="hero-slide" data-slide="3"><button type="button" class="hero-shot" data-hero-index="3"><img src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy"></button></div>
+        </div>
+        <button type="button" class="icon-btn hero-shots-arrow hero-shots-next" id="hero-shots-next" aria-label="Show light mode screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </section>
+
     <div class="shots-sections">
     <section class="light-section">
       <h2>Light mode</h2>
@@ -243,10 +355,150 @@
   <script src="theme.js"></script>
   <script>
   (function(){
-    var images = [
+    var hero = document.getElementById('hero-shots');
+    var desktopView = document.getElementById('hero-desktop-view');
+    var mobileView = document.getElementById('hero-mobile-view');
+    var prevBtn = document.getElementById('hero-shots-prev');
+    var nextBtn = document.getElementById('hero-shots-next');
+    if (!hero || !desktopView || !mobileView || !prevBtn || !nextBtn) return;
+
+    var heroImages = [
+      'screenshots/hero-dark-1.png',
+      'screenshots/hero-dark-2.png',
+      'screenshots/hero-light-1.png',
+      'screenshots/hero-light-2.png'
+    ];
+
+    var mobileQuery = window.matchMedia('(max-width:640px)');
+    var desktopAnimating = false;
+    var mobileAnimating = false;
+
+    function updateAria(){
+      if (mobileQuery.matches) {
+        prevBtn.setAttribute('aria-label', 'Show previous screenshot');
+        nextBtn.setAttribute('aria-label', 'Show next screenshot');
+      } else {
+        var current = desktopView.getAttribute('data-view');
+        var otherLabel = current === 'dark' ? 'light' : 'dark';
+        var aria = 'Show ' + otherLabel + ' mode screenshots';
+        prevBtn.setAttribute('aria-label', aria);
+        nextBtn.setAttribute('aria-label', aria);
+      }
+    }
+
+    // ---- Desktop: two fixed rows (dark pair / light pair). ----
+    // Mirrors the exact mechanism used by the shots carousel on index.html.
+    function switchDesktop(direction){
+      if (desktopAnimating) return;
+      var current = desktopView.getAttribute('data-view');
+      var next = current === 'dark' ? 'light' : 'dark';
+      var currentRow = desktopView.querySelector('.hero-row.' + current + '-row');
+      var nextRow = desktopView.querySelector('.hero-row.' + next + '-row');
+      if (!currentRow || !nextRow) return;
+
+      desktopAnimating = true;
+      var exitClass = direction === 'next' ? 'shots-shift-left' : 'shots-shift-right';
+      var enterFromClass = direction === 'next' ? 'shots-shift-right' : 'shots-shift-left';
+
+      currentRow.classList.add(exitClass);
+
+      setTimeout(function(){
+        nextRow.classList.add(enterFromClass);
+        desktopView.setAttribute('data-view', next);
+        updateAria();
+        currentRow.classList.remove(exitClass);
+
+        nextRow.offsetHeight;
+        requestAnimationFrame(function(){
+          nextRow.classList.remove(enterFromClass);
+        });
+
+        setTimeout(function(){ desktopAnimating = false; }, 320);
+      }, 320);
+    }
+
+    // ---- Mobile: four fixed single-image slides. ----
+    // Same mechanism as above, generalized from 2 states to 4.
+    function switchMobile(direction){
+      if (mobileAnimating) return;
+      var current = parseInt(mobileView.getAttribute('data-view'), 10);
+      var next = (current + (direction === 'next' ? 1 : -1) + 4) % 4;
+      var currentSlide = mobileView.querySelector('.hero-slide[data-slide="' + current + '"]');
+      var nextSlide = mobileView.querySelector('.hero-slide[data-slide="' + next + '"]');
+      if (!currentSlide || !nextSlide) return;
+
+      mobileAnimating = true;
+      var exitClass = direction === 'next' ? 'shots-shift-left' : 'shots-shift-right';
+      var enterFromClass = direction === 'next' ? 'shots-shift-right' : 'shots-shift-left';
+
+      currentSlide.classList.add(exitClass);
+
+      setTimeout(function(){
+        nextSlide.classList.add(enterFromClass);
+        mobileView.setAttribute('data-view', String(next));
+        currentSlide.classList.remove(exitClass);
+
+        nextSlide.offsetHeight;
+        requestAnimationFrame(function(){
+          nextSlide.classList.remove(enterFromClass);
+        });
+
+        setTimeout(function(){ mobileAnimating = false; }, 320);
+      }, 320);
+    }
+
+    hero.addEventListener('click', function(e){
+      var btn = e.target.closest ? e.target.closest('.hero-shot') : null;
+      if (!btn) return;
+      var idx = parseInt(btn.getAttribute('data-hero-index'), 10);
+      if (!isNaN(idx) && typeof window.openLightboxGallery === 'function') {
+        window.openLightboxGallery(heroImages, idx);
+      }
+    });
+
+    // Start in sync with the site's current theme.
+    var initial = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    desktopView.setAttribute('data-view', initial);
+    mobileView.setAttribute('data-view', initial === 'light' ? '2' : '0');
+    updateAria();
+
+    prevBtn.addEventListener('click', function(){
+      if (mobileQuery.matches) switchMobile('prev'); else switchDesktop('prev');
+    });
+    nextBtn.addEventListener('click', function(){
+      if (mobileQuery.matches) switchMobile('next'); else switchDesktop('next');
+    });
+
+    // Re-sync to the theme whenever it changes, overriding any manual
+    // switching the user did with the arrows.
+    var themeObserver = new MutationObserver(function(){
+      var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      if (desktopView.getAttribute('data-view') !== theme) {
+        desktopView.setAttribute('data-view', theme);
+      }
+      var mobileTheme = parseInt(mobileView.getAttribute('data-view'), 10) < 2 ? 'dark' : 'light';
+      if (mobileTheme !== theme) {
+        var slot = parseInt(mobileView.getAttribute('data-view'), 10) % 2;
+        mobileView.setAttribute('data-view', String((theme === 'dark' ? 0 : 2) + slot));
+      }
+      updateAria();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    if (mobileQuery.addEventListener) {
+      mobileQuery.addEventListener('change', updateAria);
+    } else if (mobileQuery.addListener) {
+      mobileQuery.addListener(updateAria);
+    }
+  })();
+  </script>
+  <script>
+  (function(){
+    var mainImages = [
       'screenshots/light-1.png','screenshots/light-2.png','screenshots/light-3.png','screenshots/light-4.png',
       'screenshots/dark-1.png','screenshots/dark-2.png','screenshots/dark-3.png','screenshots/dark-4.png'
     ];
+    var images = mainImages;
     var dialog = document.getElementById('lightbox');
     var imgEl = document.getElementById('lightbox-img');
     var current = 0;
@@ -262,8 +514,16 @@
     function next(){ show(current + 1); }
     function prev(){ show(current - 1); }
 
+    // Allows other galleries on the page (e.g. the hero carousel) to reuse
+    // this same lightbox dialog with their own image list.
+    window.openLightboxGallery = function(list, index){
+      images = list;
+      openAt(index);
+    };
+
     document.querySelectorAll('.shot').forEach(function(shot){
       shot.addEventListener('click', function(){
+        images = mainImages;
         openAt(parseInt(shot.getAttribute('data-index'), 10));
       });
     });
