@@ -390,6 +390,15 @@
   .shots-arrow.shots-prev{ left:-56px; }
   .shots-arrow.shots-next{ right:-56px; }
   .shots-arrow:active{ transform:translateY(-50%); }
+  /* .shell maxes out at 1120px with 24px side padding, so there's only
+     ever guaranteed to be 24px of clearance outside the carousel once the
+     window is narrower than that. Below the width where a 56px offset
+     would actually have room, pull the arrows in so they never get
+     clipped by the viewport edge. */
+  @media (max-width:1184px){
+    .shots-arrow.shots-prev{ left:-20px; }
+    .shots-arrow.shots-next{ right:-20px; }
+  }
   .shot-row{
     display:grid;
     grid-template-columns:repeat(4, 1fr);
@@ -494,8 +503,6 @@
     .feat-grid{ grid-template-columns:repeat(2, 1fr); }
     .shot-row{ grid-template-columns:repeat(2, 1fr); }
     .mode-grid{ grid-template-columns:1fr; gap:16px; }
-    .shots-arrow.shots-prev{ left:-28px; }
-    .shots-arrow.shots-next{ right:-28px; }
 
     /* tablet: tighten the section rhythm so the gaps between
        sections don't feel as oversized as they do on desktop */
