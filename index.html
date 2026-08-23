@@ -601,7 +601,7 @@
         </div>
         <div class="eyebrow"><span class="dot-ic"></span>Free &amp; open source · Windows 10/11</div>
         <h1 class="display">Keeps your PC awake.<span class="brk">Without lifting a finger.</span></h1>
-        <p class="hero-lede">MouseUtil clicks or spins your cursor on a timer, so Windows never marks you idle — through long calls, slow downloads, or AFK stretches.</p>
+        <p class="hero-lede" id="hero-lede">MouseUtil automates clicks and cursor movement on a configurable timer, helping keep your PC active while you're away or busy.</p>
         <div class="cta-row">
           <div class="download-split" id="download-split-hero">
             <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.3.0/MouseUtilSetup-v1.3.0_x64.zip" class="btn btn-primary" download id="download-trigger-hero" aria-haspopup="menu" aria-expanded="false">
@@ -856,15 +856,14 @@
   (function(){
     var crumb = document.getElementById('home-breadcrumb');
     var link = document.getElementById('home-breadcrumb-link');
-    // Trigger off the hero-meta line ("v1.3.0 · 57.4 MB, zip / WinUI 3 · .NET 8")
-    // rather than the hero brand mark, so the breadcrumb appears later, once
-    // the visitor has scrolled past the hero content. This element sits right
-    // before the screenshot on mobile too, so the same threshold works there.
-    var heroMeta = document.getElementById('hero-meta');
-    if (!crumb || !heroMeta) return;
+    // Trigger off the hero lede paragraph ("MouseUtil clicks or spins your
+    // cursor on a timer...") so the breadcrumb appears once the visitor has
+    // scrolled past that intro copy.
+    var heroLede = document.getElementById('hero-lede');
+    if (!crumb || !heroLede) return;
 
     function onScroll(){
-      var threshold = heroMeta.getBoundingClientRect().bottom + window.scrollY;
+      var threshold = heroLede.getBoundingClientRect().bottom + window.scrollY;
       crumb.classList.toggle('visible', window.scrollY > threshold);
     }
 
