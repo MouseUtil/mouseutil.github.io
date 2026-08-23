@@ -52,80 +52,79 @@
   .hero-shots-carousel{
     position:relative;
   }
-  .hero-shots-arrow{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    z-index:2;
-  }
-  .hero-shots-arrow.hero-shots-prev{ left:-56px; }
-  .hero-shots-arrow.hero-shots-next{ right:-56px; }
-  .hero-shots-arrow:active{ transform:translateY(-50%); }
-  /* The .wrap container maxes out at 1440px with 40px side padding, so
-     there's only ever guaranteed to be 40px of clearance outside the
-     carousel once the window is narrower than that. Below the width where
-     a 56px offset would actually have room, pull the arrows in so they
-     never get clipped by the viewport edge. */
-  @media (max-width:1472px){
-    .hero-shots-arrow.hero-shots-prev{ left:-32px; }
-    .hero-shots-arrow.hero-shots-next{ right:-32px; }
-  }
-  .hero-shot{
-    display:block;
-    padding:0;
-    border:none;
-    background:none;
-    font:inherit;
-    color:inherit;
-    cursor:pointer;
-  }
-  .hero-shot img{
-    display:block;
-    width:100%;
-    height:auto;
+  /* Hero slots reuse the .shot placeholder styling (solid border, card
+     background, hover state, missing-image label) exactly as-is — the
+     only overrides are the 4/3 aspect ratio (instead of the screenshot's
+     natural ratio) and position:relative so the "b" crossfade image can
+     be absolutely positioned on top of the "a" image. */
+  .hero-shot.shot{
     aspect-ratio:4/3;
-    object-fit:cover;
-    border-radius:6px;
-    border:1px solid var(--border);
-    transition:border-color .15s ease;
+    position:relative;
   }
-  .hero-shot:hover img{ border-color:var(--icon-accent); }
+  /* Both hero images are absolutely positioned, stacked exactly on top of
+     each other and sized purely from the button's own box (which is
+     fixed by aspect-ratio above). Previously only the "b" (top) image
+     was absolute, leaving the "a" (bottom) image sized via normal flow —
+     in some browsers a dynamic src swap on a normal-flow image can
+     briefly re-derive box size from the new image's own intrinsic
+     dimensions before the percentage-based CSS re-settles, producing a
+     visible shrink/grow flash. Taking both images fully out of flow like
+     this removes that dependency entirely: neither image's box size can
+     ever be influenced by its own content, only by the button's fixed
+     aspect-ratio, so the crossfade is a pure opacity fade with zero
+     layout involvement. */
+  .hero-img-a{
+    position:absolute;
+    top:0;
+    left:0;
+  }
+  .hero-img-b{
+    position:absolute;
+    top:0;
+    left:0;
+    opacity:0;
+    transition:opacity .6s ease;
+  }
 
-  /* Desktop: two fixed rows (dark pair / light pair), only one shown. */
-  .hero-desktop-view{ display:block; }
-  .hero-row{
+  /* Only the pair matching the current site theme is shown, exactly like
+     the dark-shot/light-shot mockup frames on index.html. */
+  .hero-pair{
     display:none;
     grid-template-columns:repeat(2, 1fr);
     gap:20px;
-    transition:transform .32s ease, opacity .32s ease;
-    transform:translateX(0);
-    opacity:1;
   }
-  .hero-desktop-view[data-view="dark"] .hero-row.dark-row{ display:grid; }
-  .hero-desktop-view[data-view="light"] .hero-row.light-row{ display:grid; }
-  .hero-row.shots-shift-left{ transform:translateX(-18px); opacity:0; }
-  .hero-row.shots-shift-right{ transform:translateX(18px); opacity:0; }
+  .hero-pair.dark-shot{ display:grid; }
+  .hero-pair.light-shot{ display:none; }
+  [data-theme="light"] .hero-pair.dark-shot{ display:none; }
+  [data-theme="light"] .hero-pair.light-shot{ display:grid; }
 
-  /* Mobile: four fixed single-image slides, only one shown. */
-  .hero-mobile-view{ display:none; }
-  .hero-slide{
+  /* Mobile: a single screenshot at a time (cycling through all six)
+     instead of the desktop's two-at-a-time pair. Hidden on desktop;
+     swaps in for the pair below 640px, still gated by theme. Uses the
+     same single-column grid trick as .hero-pair so the button stretches
+     to fill the width instead of shrinking to its placeholder text. */
+  .hero-single{
     display:none;
-    transition:transform .32s ease, opacity .32s ease;
-    transform:translateX(0);
-    opacity:1;
+    grid-template-columns:1fr;
   }
-  .hero-mobile-view[data-view="0"] .hero-slide[data-slide="0"]{ display:block; }
-  .hero-mobile-view[data-view="1"] .hero-slide[data-slide="1"]{ display:block; }
-  .hero-mobile-view[data-view="2"] .hero-slide[data-slide="2"]{ display:block; }
-  .hero-mobile-view[data-view="3"] .hero-slide[data-slide="3"]{ display:block; }
-  .hero-slide.shots-shift-left{ transform:translateX(-18px); opacity:0; }
-  .hero-slide.shots-shift-right{ transform:translateX(18px); opacity:0; }
 
   @media (max-width:640px){
-    .hero-shots-arrow.hero-shots-prev{ left:-14px; }
-    .hero-shots-arrow.hero-shots-next{ right:-14px; }
-    .hero-desktop-view{ display:none; }
-    .hero-mobile-view{ display:block; }
+    .hero-pair{ display:none !important; }
+    .hero-single.dark-shot{ display:grid; }
+    .hero-single.light-shot{ display:none; }
+    [data-theme="light"] .hero-single.dark-shot{ display:none; }
+    [data-theme="light"] .hero-single.light-shot{ display:grid; }
+  }
+
+  /* Mobile and portrait tablets: the hero container switches to the same
+     tall aspect ratio as the regular screenshots below, instead of the
+     desktop's 4:3. The screenshots themselves are still 4:3 images, so
+     they're cropped (object-fit:cover) to fill the taller frame rather
+     than stretched. Desktop sizing above this breakpoint is untouched. */
+  @media (max-width:1024px){
+    .hero-shot.shot{ aspect-ratio:582/855; }
+    .hero-shot.shot .hero-img-a,
+    .hero-shot.shot .hero-img-b{ object-fit:cover; }
   }
 
   .shots-sections{
@@ -149,7 +148,7 @@
   }
   .shot{
     aspect-ratio:582/855;
-    border:1px dashed var(--border);
+    border:1px solid var(--border);
     border-radius:8px;
     background:var(--card);
     display:flex;
@@ -265,31 +264,46 @@
     <h1>Screenshots</h1>
 
     <section class="hero-shots" id="hero-shots">
-      <h2>In action</h2>
       <hr class="divider">
       <div class="hero-shots-carousel">
-        <button type="button" class="icon-btn hero-shots-arrow hero-shots-prev" id="hero-shots-prev" aria-label="Show light mode screenshots">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <div class="hero-desktop-view" id="hero-desktop-view" data-view="dark">
-          <div class="hero-row dark-row">
-            <button type="button" class="hero-shot" data-hero-index="0"><img src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy"></button>
-            <button type="button" class="hero-shot" data-hero-index="1"><img src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy"></button>
-          </div>
-          <div class="hero-row light-row">
-            <button type="button" class="hero-shot" data-hero-index="2"><img src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy"></button>
-            <button type="button" class="hero-shot" data-hero-index="3"><img src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy"></button>
-          </div>
+        <div class="hero-pair dark-shot" id="hero-dark-pair">
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-dark-a1" src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-dark-1.png</span>
+            <img class="hero-img-b" id="hero-dark-b1" src="screenshots/hero-dark-3.png" alt="MouseUtil dark mode hero screenshot 3" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-dark-a2" src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-dark-2.png</span>
+            <img class="hero-img-b" id="hero-dark-b2" src="screenshots/hero-dark-4.png" alt="MouseUtil dark mode hero screenshot 4" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
         </div>
-        <div class="hero-mobile-view" id="hero-mobile-view" data-view="0">
-          <div class="hero-slide" data-slide="0"><button type="button" class="hero-shot" data-hero-index="0"><img src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy"></button></div>
-          <div class="hero-slide" data-slide="1"><button type="button" class="hero-shot" data-hero-index="1"><img src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy"></button></div>
-          <div class="hero-slide" data-slide="2"><button type="button" class="hero-shot" data-hero-index="2"><img src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy"></button></div>
-          <div class="hero-slide" data-slide="3"><button type="button" class="hero-shot" data-hero-index="3"><img src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy"></button></div>
+        <div class="hero-pair light-shot" id="hero-light-pair">
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-light-a1" src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-light-1.png</span>
+            <img class="hero-img-b" id="hero-light-b1" src="screenshots/hero-light-3.png" alt="MouseUtil light mode hero screenshot 3" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-light-a2" src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-light-2.png</span>
+            <img class="hero-img-b" id="hero-light-b2" src="screenshots/hero-light-4.png" alt="MouseUtil light mode hero screenshot 4" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
         </div>
-        <button type="button" class="icon-btn hero-shots-arrow hero-shots-next" id="hero-shots-next" aria-label="Show light mode screenshots">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
+        <div class="hero-single dark-shot" id="hero-dark-single">
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-dark-single-a" src="screenshots/hero-dark-1.png" alt="MouseUtil dark mode hero screenshot 1" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-dark-1.png</span>
+            <img class="hero-img-b" id="hero-dark-single-b" src="screenshots/hero-dark-2.png" alt="MouseUtil dark mode hero screenshot 2" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
+        </div>
+        <div class="hero-single light-shot" id="hero-light-single">
+          <button type="button" class="hero-shot shot">
+            <img class="hero-img-a" id="hero-light-single-a" src="screenshots/hero-light-1.png" alt="MouseUtil light mode hero screenshot 1" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.textContent=this.src.split('/').pop(); this.nextElementSibling.style.display='flex';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+            <span class="placeholder-label" style="display:none;">hero-light-1.png</span>
+            <img class="hero-img-b" id="hero-light-single-b" src="screenshots/hero-light-2.png" alt="MouseUtil light mode hero screenshot 2" loading="lazy" onerror="this.style.display='none';" onload="this.style.display='block';">
+          </button>
+        </div>
       </div>
     </section>
 
@@ -355,141 +369,102 @@
   <script src="theme.js"></script>
   <script>
   (function(){
-    var hero = document.getElementById('hero-shots');
-    var desktopView = document.getElementById('hero-desktop-view');
-    var mobileView = document.getElementById('hero-mobile-view');
-    var prevBtn = document.getElementById('hero-shots-prev');
-    var nextBtn = document.getElementById('hero-shots-next');
-    if (!hero || !desktopView || !mobileView || !prevBtn || !nextBtn) return;
-
-    var heroImages = [
+    var heroImagesDark = [
       'screenshots/hero-dark-1.png',
       'screenshots/hero-dark-2.png',
+      'screenshots/hero-dark-3.png',
+      'screenshots/hero-dark-4.png',
+      'screenshots/hero-dark-5.png',
+      'screenshots/hero-dark-6.png'
+    ];
+    var heroImagesLight = [
       'screenshots/hero-light-1.png',
-      'screenshots/hero-light-2.png'
+      'screenshots/hero-light-2.png',
+      'screenshots/hero-light-3.png',
+      'screenshots/hero-light-4.png',
+      'screenshots/hero-light-5.png',
+      'screenshots/hero-light-6.png'
     ];
 
-    var mobileQuery = window.matchMedia('(max-width:640px)');
-    var desktopAnimating = false;
-    var mobileAnimating = false;
+    // Exactly the crossfade mechanism used by the index.html hero mockup
+    // (setupCrossfade): the "b" image is loaded with the next screenshot,
+    // faded in over the "a" image, then once the fade finishes "a" is
+    // updated to match and "b" is snapped back to invisible with no
+    // transition — ready to fade in the next screenshot. Generalized here
+    // to cycle through a whole list of images instead of just two.
+    function setupCrossfade(baseId, overlayId, images){
+      var base = document.getElementById(baseId);
+      var overlay = document.getElementById(overlayId);
+      if (!base || !overlay) return function(){};
 
-    function updateAria(){
-      if (mobileQuery.matches) {
-        prevBtn.setAttribute('aria-label', 'Show previous screenshot');
-        nextBtn.setAttribute('aria-label', 'Show next screenshot');
-      } else {
-        var current = desktopView.getAttribute('data-view');
-        var otherLabel = current === 'dark' ? 'light' : 'dark';
-        var aria = 'Show ' + otherLabel + ' mode screenshots';
-        prevBtn.setAttribute('aria-label', aria);
-        nextBtn.setAttribute('aria-label', aria);
-      }
-    }
+      var current = 0;
+      return function swap(){
+        var next = (current + 1) % images.length;
+        overlay.src = images[next];
 
-    // ---- Desktop: two fixed rows (dark pair / light pair). ----
-    // Mirrors the exact mechanism used by the shots carousel on index.html.
-    function switchDesktop(direction){
-      if (desktopAnimating) return;
-      var current = desktopView.getAttribute('data-view');
-      var next = current === 'dark' ? 'light' : 'dark';
-      var currentRow = desktopView.querySelector('.hero-row.' + current + '-row');
-      var nextRow = desktopView.querySelector('.hero-row.' + next + '-row');
-      if (!currentRow || !nextRow) return;
-
-      desktopAnimating = true;
-      var exitClass = direction === 'next' ? 'shots-shift-left' : 'shots-shift-right';
-      var enterFromClass = direction === 'next' ? 'shots-shift-right' : 'shots-shift-left';
-
-      currentRow.classList.add(exitClass);
-
-      setTimeout(function(){
-        nextRow.classList.add(enterFromClass);
-        desktopView.setAttribute('data-view', next);
-        updateAria();
-        currentRow.classList.remove(exitClass);
-
-        nextRow.offsetHeight;
         requestAnimationFrame(function(){
-          nextRow.classList.remove(enterFromClass);
+          overlay.style.opacity = '1';
         });
 
-        setTimeout(function(){ desktopAnimating = false; }, 320);
-      }, 320);
+        setTimeout(function(){
+          base.src = overlay.src;
+          overlay.style.transition = 'none';
+          overlay.style.opacity = '0';
+          overlay.offsetHeight;
+          overlay.style.transition = '';
+          current = next;
+        }, 650);
+      };
     }
 
-    // ---- Mobile: four fixed single-image slides. ----
-    // Same mechanism as above, generalized from 2 states to 4.
-    function switchMobile(direction){
-      if (mobileAnimating) return;
-      var current = parseInt(mobileView.getAttribute('data-view'), 10);
-      var next = (current + (direction === 'next' ? 1 : -1) + 4) % 4;
-      var currentSlide = mobileView.querySelector('.hero-slide[data-slide="' + current + '"]');
-      var nextSlide = mobileView.querySelector('.hero-slide[data-slide="' + next + '"]');
-      if (!currentSlide || !nextSlide) return;
+    // Left slot cycles 1 -> 3 -> 5, right slot cycles 2 -> 4 -> 6, per theme
+    // (desktop, two-at-a-time). The mobile single slot instead cycles
+    // through all six screenshots in order, one at a time.
+    var swapDark1 = setupCrossfade('hero-dark-a1', 'hero-dark-b1', [heroImagesDark[0], heroImagesDark[2], heroImagesDark[4]]);
+    var swapDark2 = setupCrossfade('hero-dark-a2', 'hero-dark-b2', [heroImagesDark[1], heroImagesDark[3], heroImagesDark[5]]);
+    var swapLight1 = setupCrossfade('hero-light-a1', 'hero-light-b1', [heroImagesLight[0], heroImagesLight[2], heroImagesLight[4]]);
+    var swapLight2 = setupCrossfade('hero-light-a2', 'hero-light-b2', [heroImagesLight[1], heroImagesLight[3], heroImagesLight[5]]);
+    var swapDarkSingle = setupCrossfade('hero-dark-single-a', 'hero-dark-single-b', heroImagesDark);
+    var swapLightSingle = setupCrossfade('hero-light-single-a', 'hero-light-single-b', heroImagesLight);
 
-      mobileAnimating = true;
-      var exitClass = direction === 'next' ? 'shots-shift-left' : 'shots-shift-right';
-      var enterFromClass = direction === 'next' ? 'shots-shift-right' : 'shots-shift-left';
+    setTimeout(function(){
+      swapDark1(); swapDark2(); swapLight1(); swapLight2();
+      setInterval(function(){
+        swapDark1(); swapDark2(); swapLight1(); swapLight2();
+      }, 5000);
+    }, 2000);
 
-      currentSlide.classList.add(exitClass);
+    setTimeout(function(){
+      swapDarkSingle(); swapLightSingle();
+      setInterval(function(){
+        swapDarkSingle(); swapLightSingle();
+      }, 3000);
+    }, 2000);
 
-      setTimeout(function(){
-        nextSlide.classList.add(enterFromClass);
-        mobileView.setAttribute('data-view', String(next));
-        currentSlide.classList.remove(exitClass);
-
-        nextSlide.offsetHeight;
-        requestAnimationFrame(function(){
-          nextSlide.classList.remove(enterFromClass);
-        });
-
-        setTimeout(function(){ mobileAnimating = false; }, 320);
-      }, 320);
-    }
-
-    hero.addEventListener('click', function(e){
-      var btn = e.target.closest ? e.target.closest('.hero-shot') : null;
-      if (!btn) return;
-      var idx = parseInt(btn.getAttribute('data-hero-index'), 10);
-      if (!isNaN(idx) && typeof window.openLightboxGallery === 'function') {
-        window.openLightboxGallery(heroImages, idx);
-      }
+    // Clicking a screenshot opens it in the lightbox. Which theme's list
+    // to use, and which image in it, is read off the frame that was
+    // actually clicked (its currently-settled "a" image). Match by
+    // filename rather than the raw src string: once a crossfade swap has
+    // run, base.src gets reassigned via the DOM property (base.src =
+    // overlay.src), which the browser normalizes into an absolute URL —
+    // that no longer string-matches the relative paths in heroImagesDark/
+    // heroImagesLight, so comparing basenames keeps this correct
+    // regardless of how the src attribute happens to be formatted.
+    document.querySelectorAll('.hero-pair, .hero-single').forEach(function(group){
+      group.addEventListener('click', function(e){
+        var btn = e.target.closest ? e.target.closest('.hero-shot') : null;
+        if (!btn) return;
+        var base = btn.querySelector('.hero-img-a');
+        if (!base) return;
+        var list = group.classList.contains('light-shot') ? heroImagesLight : heroImagesDark;
+        var currentFile = (base.getAttribute('src') || '').split('/').pop();
+        var idx = list.findIndex(function(url){ return url.split('/').pop() === currentFile; });
+        if (idx === -1) idx = 0;
+        if (typeof window.openLightboxGallery === 'function') {
+          window.openLightboxGallery(list, idx);
+        }
+      });
     });
-
-    // Start in sync with the site's current theme.
-    var initial = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-    desktopView.setAttribute('data-view', initial);
-    mobileView.setAttribute('data-view', initial === 'light' ? '2' : '0');
-    updateAria();
-
-    prevBtn.addEventListener('click', function(){
-      if (mobileQuery.matches) switchMobile('prev'); else switchDesktop('prev');
-    });
-    nextBtn.addEventListener('click', function(){
-      if (mobileQuery.matches) switchMobile('next'); else switchDesktop('next');
-    });
-
-    // Re-sync to the theme whenever it changes, overriding any manual
-    // switching the user did with the arrows.
-    var themeObserver = new MutationObserver(function(){
-      var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-      if (desktopView.getAttribute('data-view') !== theme) {
-        desktopView.setAttribute('data-view', theme);
-      }
-      var mobileTheme = parseInt(mobileView.getAttribute('data-view'), 10) < 2 ? 'dark' : 'light';
-      if (mobileTheme !== theme) {
-        var slot = parseInt(mobileView.getAttribute('data-view'), 10) % 2;
-        mobileView.setAttribute('data-view', String((theme === 'dark' ? 0 : 2) + slot));
-      }
-      updateAria();
-    });
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    if (mobileQuery.addEventListener) {
-      mobileQuery.addEventListener('change', updateAria);
-    } else if (mobileQuery.addListener) {
-      mobileQuery.addListener(updateAria);
-    }
   })();
   </script>
   <script>
