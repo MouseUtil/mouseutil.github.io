@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Features · MouseUtil</title>
 <link rel="stylesheet" href="theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
 (function(){
   try{
@@ -16,8 +19,12 @@
 </script>
 <style>
   *{box-sizing:border-box;}
-  [data-theme="dark"]{ --pink: #ea596e; }
-  [data-theme="light"]{ --pink: #d6435c; }
+  .display{
+    font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing:-0.01em;
+  }
+  [data-theme="dark"]{ --pink: #ea596e; --grad-card: linear-gradient(160deg, #202020 0%, #1b1b1a 100%); }
+  [data-theme="light"]{ --pink: #d6435c; --grad-card: linear-gradient(160deg, #ffffff 0%, #f7f6f4 100%); }
   body{
     margin:0;
     background:var(--bg);
@@ -249,12 +256,137 @@
     margin-top:20px;
   }
   .callout-row .callout{ margin-top:0; }
+
+  /* ============ CTA CARD ============ */
+  .cta-band{
+    margin-top:40px;
+    padding-top:40px;
+    border-top:1px solid var(--border);
+  }
+  .cta-card{
+    background:var(--grad-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:56px 48px;
+    text-align:center;
+    position:relative;
+  }
+  /* Clips the decorative swirls to the card's rounded corners without
+     clipping the rest of the card — overflow:hidden used to live on
+     .cta-card itself, but that also clipped the download dropdown
+     (.download-menu) on mobile, hiding the GitHub option below the fold
+     of the card. Isolating the clip to this inset layer fixes that. */
+  .cta-card .cta-squiggle-clip{
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .cta-card .cta-squiggle{
+    position:absolute;
+    color:var(--pink);
+    pointer-events:none;
+  }
+  .cta-card .cta-squiggle-1{ top:-50px; right:-50px; width:220px; height:220px; opacity:0.5; }
+  .cta-card .cta-squiggle-2{ bottom:-60px; left:-40px; width:170px; height:170px; opacity:0.35; transform:rotate(35deg); }
+  .cta-card .cta-squiggle-3{ top:40%; left:20%; width:90px; height:90px; opacity:0.18; transform:translateY(-50%) rotate(-20deg); }
+  .cta-card .cta-squiggle-4{ bottom:-30px; right:18%; width:110px; height:110px; opacity:0.22; transform:rotate(160deg); }
+  .cta-card h2{
+    font-size:clamp(24px, 3vw, 32px);
+    font-weight:800;
+    margin:0 0 28px;
+    position:relative;
+    z-index:1;
+  }
+  .cta-card .cta-row{
+    display:flex;
+    justify-content:center;
+    margin:0;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ============ DOWNLOAD BUTTON ============ */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    padding:14px 22px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:700;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .12s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .btn svg{ width:19px; height:19px; flex-shrink:0; }
+  .btn-primary{
+    background:var(--green-btn);
+    color:#0d1b10;
+    box-shadow:0 10px 24px -8px color-mix(in srgb, var(--green-btn) 60%, transparent);
+    will-change:transform;
+  }
+  .btn-primary:hover{ transform:translate3d(0,-1px,0); }
+  .btn-primary:active{ transform:translate3d(0,0,0); }
+  [data-theme="light"] .btn-primary{ color:#f5f5f4; }
+
+  /* Download split button: on desktop this is just a plain .btn-primary
+     link with the usual download behavior. On mobile/small screens, JS
+     turns the same button into a dropdown trigger (see .download-menu
+     below) offering a choice between the direct .zip and the GitHub
+     releases page — mirroring the theme switcher's dropdown pattern. */
+  .download-split{ position:relative; }
+  .dl-label-short{ display:none; }
+  .download-menu{
+    position:absolute;
+    top:100%;
+    left:0;
+    margin-top:8px;
+    min-width:220px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:6px;
+    display:none;
+    flex-direction:column;
+    gap:2px;
+    box-shadow:0 10px 28px var(--shadow);
+    z-index:1000;
+  }
+  .download-menu.open{ display:flex; }
+  .download-option{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 10px;
+    border-radius:7px;
+    border:none;
+    background:transparent;
+    color:var(--text);
+    font-family:inherit;
+    font-size:14px;
+    font-weight:500;
+    text-decoration:none;
+    cursor:pointer;
+    text-align:left;
+    width:100%;
+  }
+  .download-option:hover{ background:var(--hover-bg); }
+  .download-option svg{ width:16px; height:16px; flex-shrink:0; }
+  /* Windows logo icon on the "Download for Windows" dropdown option:
+     always blue regardless of theme, per design request. */
+  .download-option .win-logo-icon{ transform:scale(1.2); }
+
   @media (max-width:860px){
     .feature-grid{grid-template-columns:repeat(2, 1fr);}
     .callout-row{grid-template-columns:1fr;}
     .callout-row .callout.info{order:1;}
     .callout-row .callout.warn{order:2;}
     .oss-card{flex-basis:calc((100% - 16px)/2);}
+    .cta-card{ padding:44px 36px; }
   }
   @media (max-width:600px){
     h1{font-size:34px;}
@@ -263,6 +395,10 @@
     .oss-card-logo{width:90px;height:90px;right:-16px;bottom:-16px;}
     .feature-grid{grid-template-columns:1fr;}
     .feature-grid-modes{grid-template-columns:1fr;}
+    .cta-card{ padding:40px 24px; }
+    .cta-card h2{ font-size:clamp(17px, 5.6vw, 24px); white-space:nowrap; }
+    .dl-label-full{ display:none; }
+    .dl-label-short{ display:inline; }
   }
 
   /* ============ FOOTER ============ */
@@ -467,6 +603,63 @@
       </a>
     </div>
     -->
+
+    <div class="cta-band">
+      <div class="cta-card">
+        <div class="cta-squiggle-clip">
+          <svg class="cta-squiggle cta-squiggle-1" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(62.94,8.3) scale(0.82)">
+              <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
+            </g>
+          </svg>
+          <svg class="cta-squiggle cta-squiggle-2" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(62.94,8.3) scale(0.82)">
+              <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
+            </g>
+          </svg>
+          <svg class="cta-squiggle cta-squiggle-3" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(62.94,8.3) scale(0.82)">
+              <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
+            </g>
+          </svg>
+          <svg class="cta-squiggle cta-squiggle-4" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g transform="translate(62.94,8.3) scale(0.82)">
+              <path d="m78.13,56.46c8.73-5.73,19.03-5.32,24.56,0,6.76,6.5,4.4,18.43,0,24.78-9.98,14.4-42.11,17.02-57.31,0-12.56-14.07-9.55-37.03,0-50.18,17.71-24.38,66.19-26.43,88.13,0,16.52,19.89,13.45,50.19,0,69.75-19.64,28.59-59.23,28.58-82.51,21.75-19.97-5.86-32.87-18.21-39-25" stroke="currentColor" stroke-width="22" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <h2 class="display">Ready to try it?</h2>
+        <div class="cta-row">
+          <div class="download-split" id="download-split-features">
+            <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.3.0/MouseUtilSetup-v1.3.0_x64.zip" class="btn btn-primary" download id="download-trigger-features" aria-haspopup="menu" aria-expanded="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
+              </svg>
+              <span class="dl-label-full">Download for Windows</span>
+              <span class="dl-label-short">Download</span>
+            </a>
+            <div class="download-menu" id="download-menu-features" role="menu">
+              <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.3.0/MouseUtilSetup-v1.3.0_x64.zip" class="download-option" download role="menuitem">
+                <svg class="win-logo-icon" viewBox="0 0 24 24">
+                  <defs>
+                    <linearGradient id="win-logo-gradient-features" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#4FB2F0"/>
+                      <stop offset="100%" stop-color="#0078D4"/>
+                    </linearGradient>
+                  </defs>
+                  <path fill="url(#win-logo-gradient-features)" d="M4,2.5 L11,2.5 L11,11 L2.5,11 L2.5,4 A1.5,1.5 0 0 1 4,2.5 Z M12.5,2.5 L19.5,2.5 A1.5,1.5 0 0 1 21,4 L21,11 L12.5,11 L12.5,2.5 Z M2.5,12.5 L11,12.5 L11,21 L4,21 A1.5,1.5 0 0 1 2.5,19.5 L2.5,12.5 Z M12.5,12.5 L21,12.5 L21,19.5 A1.5,1.5 0 0 1 19.5,21 L12.5,21 L12.5,12.5 Z"/>
+                </svg>
+                <span>Download for Windows</span>
+              </a>
+              <a href="https://github.com/MouseUtil/MouseUtil/releases" class="download-option" target="_blank" rel="noopener noreferrer" role="menuitem">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>Download from GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer class="site-footer">
@@ -491,5 +684,63 @@
   </footer>
 
   <script src="theme.js"></script>
+  <script>
+  // Download split button (CTA card): on desktop this is a plain download
+  // link. On mobile/small screens (same breakpoint as the "Download for
+  // Windows" -> "Download" label swap), clicking the button opens a small
+  // dropdown instead of downloading immediately, offering a choice between
+  // the direct .zip and the GitHub releases page. Mirrors the theme
+  // switcher's open/close/outside-click pattern.
+  (function () {
+    var MOBILE_QUERY = '(max-width:600px)';
+    var isMobile = function () { return window.matchMedia(MOBILE_QUERY).matches; };
+
+    var trigger = document.getElementById('download-trigger-features');
+    var menu = document.getElementById('download-menu-features');
+    if (!trigger || !menu) return;
+
+    function closeMenu() {
+      menu.classList.remove('open');
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.register(closeMenu);
+
+    trigger.addEventListener('click', function (e) {
+      if (!isMobile()) return; // desktop: let the link download as normal
+      e.preventDefault();
+      var isOpen = menu.classList.contains('open');
+      closeMenu();
+      if (!isOpen) {
+        if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.closeOthers(closeMenu);
+        menu.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    menu.querySelectorAll('.download-option').forEach(function (opt) {
+      opt.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    // Close on scroll, matching the theme switcher's dropdown behavior.
+    window.addEventListener('scroll', closeMenu, { passive: true });
+
+    // If the viewport is resized past the breakpoint into desktop width
+    // while the dropdown is open, close it so it doesn't linger.
+    window.matchMedia(MOBILE_QUERY).addEventListener('change', function (e) {
+      if (!e.matches) closeMenu();
+    });
+  })();
+  </script>
 </body>
 </html>
