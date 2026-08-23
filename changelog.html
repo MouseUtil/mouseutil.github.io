@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Change log · MouseUtil</title>
 <link rel="stylesheet" href="theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
 (function(){
   try{
@@ -16,6 +19,10 @@
 </script>
 <style>
   *{box-sizing:border-box;}
+  .display{
+    font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing:-0.01em;
+  }
   body{
     margin:0;
     background:var(--bg);
@@ -192,7 +199,9 @@
     flex-direction:column;
     gap:2px;
     position:sticky;
-    top:32px;
+    /* Cleared past the fixed breadcrumb pill (top:20px, ~34px tall) so the
+       topmost sidebar link doesn't end up hidden underneath it once stuck. */
+    top:72px;
   }
   .sidebar-link{
     display:block;
@@ -246,13 +255,15 @@
 </style>
 </head>
 <body>
-  <div class="breadcrumb">
+  <div class="breadcrumb" id="page-breadcrumb">
     <a href="https://mouseutil.github.io" class="breadcrumb-link">
       <img src="logo-breadcrumbs.png" alt="" class="breadcrumb-logo">
       MouseUtil
     </a>
-    <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Change log</span>
+    <span class="breadcrumb-trail" id="breadcrumb-trail">
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Change log</span>
+    </span>
   </div>
   <div class="top-bar">
     <div class="theme-switcher">
@@ -280,7 +291,7 @@
   </div>
   <div class="wrap">
     <div class="changelog-title-row">
-      <h1>Change log</h1>
+      <h1 id="page-title" class="display">Change log</h1>
       <div class="changelog-menu-wrap" id="changelog-menu-wrap">
         <button id="changelog-menu-toggle" class="icon-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Jump to a version">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -458,6 +469,46 @@
   </footer>
 
   <script src="theme.js"></script>
+  <script>
+  (function(){
+    var trail = document.getElementById('breadcrumb-trail');
+    var title = document.getElementById('page-title');
+    if (!trail || !title) return;
+
+    var visible = false;
+    var hideTimer = null;
+
+    function show(){
+      if (visible) return;
+      visible = true;
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      trail.style.display = 'flex';
+      // Force reflow so the opacity transition runs instead of jumping straight to visible.
+      trail.offsetHeight;
+      trail.classList.add('visible');
+    }
+
+    function hide(){
+      if (!visible) return;
+      visible = false;
+      trail.classList.remove('visible');
+      // Wait for the fade-out to finish before collapsing the layout space,
+      // so the card shrinks back down only once the text has faded.
+      hideTimer = setTimeout(function(){
+        trail.style.display = 'none';
+        hideTimer = null;
+      }, 200);
+    }
+
+    function onScroll(){
+      var threshold = title.getBoundingClientRect().bottom + window.scrollY;
+      if (window.scrollY > threshold){ show(); } else { hide(); }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+  </script>
   <script>
   (function(){
     var wrap = document.getElementById('changelog-menu-wrap');

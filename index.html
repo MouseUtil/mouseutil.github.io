@@ -635,7 +635,7 @@
             View source
           </a>
         </div>
-        <div class="hero-meta">
+        <div class="hero-meta" id="hero-meta">
           <span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
             v1.3.0 · 57.4 MB, zip
@@ -856,11 +856,15 @@
   (function(){
     var crumb = document.getElementById('home-breadcrumb');
     var link = document.getElementById('home-breadcrumb-link');
-    var heroBrand = document.getElementById('hero-brand');
-    if (!crumb || !heroBrand) return;
+    // Trigger off the hero-meta line ("v1.3.0 · 57.4 MB, zip / WinUI 3 · .NET 8")
+    // rather than the hero brand mark, so the breadcrumb appears later, once
+    // the visitor has scrolled past the hero content. This element sits right
+    // before the screenshot on mobile too, so the same threshold works there.
+    var heroMeta = document.getElementById('hero-meta');
+    if (!crumb || !heroMeta) return;
 
     function onScroll(){
-      var threshold = heroBrand.getBoundingClientRect().bottom + window.scrollY;
+      var threshold = heroMeta.getBoundingClientRect().bottom + window.scrollY;
       crumb.classList.toggle('visible', window.scrollY > threshold);
     }
 

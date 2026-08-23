@@ -101,6 +101,23 @@ body{
   color: var(--muted);
 }
 
+/* Trailing part of an inner-page breadcrumb ("/ Features", etc). Collapsed
+   out of layout at the top of the page so the breadcrumb card hugs just the
+   logo + "MouseUtil" (matching the homepage card exactly). On scroll, JS
+   switches this to display:flex first, then adds .visible on the next
+   frame so the card widens right as the trail fades in — same fade timing
+   used for the whole crumb on the homepage. */
+.breadcrumb-trail{
+  display: none;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.breadcrumb-trail.visible{
+  opacity: 1;
+}
+
 .theme-switcher{
   position: relative;
 }

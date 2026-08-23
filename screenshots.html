@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Screenshots · MouseUtil</title>
 <link rel="stylesheet" href="theme.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
 (function(){
   try{
@@ -16,6 +19,10 @@
 </script>
 <style>
   *{box-sizing:border-box;}
+  .display{
+    font-family: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    letter-spacing:-0.01em;
+  }
   body{
     margin:0;
     background:var(--bg);
@@ -228,13 +235,15 @@
 </style>
 </head>
 <body>
-  <div class="breadcrumb">
+  <div class="breadcrumb" id="page-breadcrumb">
     <a href="https://mouseutil.github.io" class="breadcrumb-link">
       <img src="logo-breadcrumbs.png" alt="" class="breadcrumb-logo">
       MouseUtil
     </a>
-    <span class="breadcrumb-sep">/</span>
-    <span class="breadcrumb-current">Screenshots</span>
+    <span class="breadcrumb-trail" id="breadcrumb-trail">
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">Screenshots</span>
+    </span>
   </div>
   <div class="top-bar">
     <div class="theme-switcher">
@@ -261,7 +270,7 @@
     </a>
   </div>
   <div class="wrap">
-    <h1>Screenshots</h1>
+    <h1 id="page-title" class="display">Screenshots</h1>
 
     <section class="hero-shots" id="hero-shots">
       <hr class="divider">
@@ -367,6 +376,46 @@
   </footer>
 
   <script src="theme.js"></script>
+  <script>
+  (function(){
+    var trail = document.getElementById('breadcrumb-trail');
+    var title = document.getElementById('page-title');
+    if (!trail || !title) return;
+
+    var visible = false;
+    var hideTimer = null;
+
+    function show(){
+      if (visible) return;
+      visible = true;
+      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+      trail.style.display = 'flex';
+      // Force reflow so the opacity transition runs instead of jumping straight to visible.
+      trail.offsetHeight;
+      trail.classList.add('visible');
+    }
+
+    function hide(){
+      if (!visible) return;
+      visible = false;
+      trail.classList.remove('visible');
+      // Wait for the fade-out to finish before collapsing the layout space,
+      // so the card shrinks back down only once the text has faded.
+      hideTimer = setTimeout(function(){
+        trail.style.display = 'none';
+        hideTimer = null;
+      }, 200);
+    }
+
+    function onScroll(){
+      var threshold = title.getBoundingClientRect().bottom + window.scrollY;
+      if (window.scrollY > threshold){ show(); } else { hide(); }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+  </script>
   <script>
   (function(){
     var heroImagesDark = [
