@@ -8,6 +8,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- Prototype: Fluent UI Web Components (real WinUI/Fluent 2 custom elements), limited to the
+     "Two main modes" cards for now, to confirm the library and theme sync actually work before
+     converting the rest of the page. The import map MUST be the first script-like element in the
+     document — before even the Store badge's module script below — or the browser rejects it. -->
+<script type="importmap">
+{
+  "imports": {
+    "@fluentui/web-components": "https://unpkg.com/@fluentui/web-components@3.1.3/dist/esm/index.js",
+    "@fluentui/tokens": "https://unpkg.com/@fluentui/tokens@1.0.0-alpha.24/lib/index.js"
+  }
+}
+</script>
+<script type="module" src="https://unpkg.com/@fluentui/web-components@3.1.3/dist/web-components.min.js"></script>
+<script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>
 <script>
 (function(){
   try{
@@ -271,11 +285,10 @@
     text-align:center;
     position:relative;
   }
-  /* Clips the decorative swirls to the card's rounded corners without
-     clipping the rest of the card — overflow:hidden used to live on
-     .cta-card itself, but that also clipped the download dropdown
-     (.download-menu) on mobile, hiding the GitHub option below the fold
-     of the card. Isolating the clip to this inset layer fixes that. */
+  /* Isolates the clip to an inset layer rather than putting
+     overflow:hidden on .cta-card itself, so decorative background art
+     stays confined to the rounded corners without clipping card content
+     that needs to overflow (e.g. on mobile). */
   .cta-card .cta-squiggle-clip{
     position:absolute;
     inset:0;
@@ -307,6 +320,32 @@
     position:relative;
     z-index:1;
   }
+  .cta-band .cta-card + .cta-card{ margin-top:20px; }
+
+  /* ============ GITHUB CARD ============ */
+  .cta-card-github{
+    padding:28px 48px;
+  }
+  .cta-card-github .cta-github-clip{
+    position:absolute;
+    inset:0;
+    border-radius:20px;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:0;
+  }
+  .cta-card-github .cta-github-logo{
+    position:absolute;
+    right:-20px;
+    bottom:-20px;
+    width:170px;
+    height:170px;
+    color:var(--text);
+    opacity:.07;
+  }
+  .cta-card-github h2{
+    margin:10px 0 8px;
+  }
 
   /* ============ DOWNLOAD BUTTON ============ */
   .btn{
@@ -332,53 +371,14 @@
   .btn-primary:hover{ transform:translate3d(0,-1px,0); }
   .btn-primary:active{ transform:translate3d(0,0,0); }
   [data-theme="light"] .btn-primary{ color:#f5f5f4; }
-
-  /* Download split button: on desktop this is just a plain .btn-primary
-     link with the usual download behavior. On mobile/small screens, JS
-     turns the same button into a dropdown trigger (see .download-menu
-     below) offering a choice between the direct .zip and the GitHub
-     releases page — mirroring the theme switcher's dropdown pattern. */
-  .download-split{ position:relative; }
-  .dl-label-short{ display:none; }
-  .download-menu{
-    position:absolute;
-    top:100%;
-    left:0;
-    margin-top:8px;
-    min-width:220px;
-    background:var(--card);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:6px;
-    display:none;
-    flex-direction:column;
-    gap:2px;
-    box-shadow:0 10px 28px var(--shadow);
-    z-index:1000;
-  }
-  .download-menu.open{ display:flex; }
-  .download-option{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:9px 10px;
-    border-radius:7px;
-    border:none;
-    background:transparent;
+  .btn-ghost{
+    background:var(--bg);
+    border-color:var(--border);
     color:var(--text);
-    font-family:inherit;
-    font-size:14px;
-    font-weight:500;
-    text-decoration:none;
-    cursor:pointer;
-    text-align:left;
-    width:100%;
   }
-  .download-option:hover{ background:var(--hover-bg); }
-  .download-option svg{ width:16px; height:16px; flex-shrink:0; }
-  /* Windows logo icon on the "Download for Windows" dropdown option:
-     always blue regardless of theme, per design request. */
-  .download-option .win-logo-icon{ transform:scale(1.2); }
+  .btn-ghost:hover{ border-color:var(--muted); background:var(--hover-bg); }
+
+  ms-store-badge::part(img){ height:72px; }
 
   @media (max-width:860px){
     .feature-grid{grid-template-columns:repeat(2, 1fr);}
@@ -387,6 +387,7 @@
     .callout-row .callout.warn{order:2;}
     .oss-card{flex-basis:calc((100% - 16px)/2);}
     .cta-card{ padding:44px 36px; }
+    .cta-card-github{ padding:24px 36px; }
   }
   @media (max-width:600px){
     h1{font-size:34px;}
@@ -396,11 +397,11 @@
     .feature-grid{grid-template-columns:1fr;}
     .feature-grid-modes{grid-template-columns:1fr;}
     .cta-card{ padding:40px 24px; }
+    .cta-card-github{ padding:20px 24px; }
     .cta-card h2{ font-size:clamp(17px, 5.6vw, 24px); white-space:nowrap; }
-    .dl-label-full{ display:none; }
-    .dl-label-short{ display:inline; }
     .cta-card .cta-squiggle-3{ display:none; }
     .cta-card .cta-squiggle-2{ bottom:auto; top:50%; transform:translateY(-50%) rotate(35deg); }
+    .cta-card-github .cta-github-logo{ width:100px; height:100px; right:-14px; bottom:-14px; }
   }
 
   /* ============ FOOTER ============ */
@@ -452,19 +453,19 @@
     <div class="group">
       <div class="group-head">
         <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7.07 17 2.51-7.39L21 11.07z"></path></svg>
-        <h2>Two main modes</h2></h2>
+        <h2>Two main modes</h2>
       </div>
       <div class="feature-grid feature-grid-modes">
-        <div class="feature-card">
+        <fluent-card class="feature-card">
           <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>
           <h3>Auto click</h3>
           <p>Automatically clicks where the mouse pointer currently is on the screen.</p>
-        </div>
-        <div class="feature-card">
-          <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg>
-          <h3>Spin mode</h3>
+        </fluent-card>
+        <fluent-card class="feature-card">
+          <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
+          <h3>Jiggle</h3>
           <p>Moves the cursor in a tiny circle and lands back on the exact starting pixel.</p>
-        </div>
+        </fluent-card>
       </div>
     </div>
 
@@ -501,7 +502,7 @@
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
           <h3>Pause on manual movement</h3>
-          <p>Touch the mouse yourself in Spin Mode and the utility pauses for you.</p>
+          <p>Touch the mouse yourself and the utility pauses for you.</p>
         </div>
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg>
@@ -596,19 +597,19 @@
       </div>
     </div>
 
-    <!--
-    <div class="cta-row">
-      <a class="oss-card oss-card-wide" href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">
-        <div class="oss-card-text">
-          <div class="label">Open source</div>
-          <div class="sub">See project on GitHub <svg class="sub-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></div>
-        </div>
-        <svg class="oss-card-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      </a>
-    </div>
-    -->
-
     <div class="cta-band">
+      <div class="cta-card cta-card-github">
+        <div class="cta-github-clip">
+          <svg class="cta-github-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+        <h2 class="display">Free and open source</h2>
+        <div class="cta-row">
+          <a class="btn btn-ghost" href="https://github.com/MouseUtil/MouseUtil" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></svg>
+            View source
+          </a>
+        </div>
+      </div>
       <div class="cta-card">
         <div class="cta-squiggle-clip">
           <svg class="cta-squiggle cta-squiggle-1" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -634,33 +635,14 @@
         </div>
         <h2 class="display">Ready to try it?</h2>
         <div class="cta-row">
-          <div class="download-split" id="download-split-features">
-            <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.3.2/MouseUtilSetup-v1.3.2_x64.zip" class="btn btn-primary" download id="download-trigger-features" aria-haspopup="menu" aria-expanded="false">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/>
-              </svg>
-              <span class="dl-label-full">Download for Windows</span>
-              <span class="dl-label-short">Download</span>
-            </a>
-            <div class="download-menu" id="download-menu-features" role="menu">
-              <a href="https://github.com/MouseUtil/MouseUtil/releases/download/v1.3.2/MouseUtilSetup-v1.3.2_x64.zip" class="download-option" download role="menuitem">
-                <svg class="win-logo-icon" viewBox="0 0 24 24">
-                  <defs>
-                    <linearGradient id="win-logo-gradient-features" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#4FB2F0"/>
-                      <stop offset="100%" stop-color="#0078D4"/>
-                    </linearGradient>
-                  </defs>
-                  <path fill="url(#win-logo-gradient-features)" d="M4,2.5 L11,2.5 L11,11 L2.5,11 L2.5,4 A1.5,1.5 0 0 1 4,2.5 Z M12.5,2.5 L19.5,2.5 A1.5,1.5 0 0 1 21,4 L21,11 L12.5,11 L12.5,2.5 Z M2.5,12.5 L11,12.5 L11,21 L4,21 A1.5,1.5 0 0 1 2.5,19.5 L2.5,12.5 Z M12.5,12.5 L21,12.5 L21,19.5 A1.5,1.5 0 0 1 19.5,21 L12.5,21 L12.5,12.5 Z"/>
-                </svg>
-                <span>Download for Windows</span>
-              </a>
-              <a href="https://github.com/MouseUtil/MouseUtil/releases" class="download-option" target="_blank" rel="noopener noreferrer" role="menuitem">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.11.81 2.25 0 1.635-.015 2.945-.015 3.35 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                <span>Download from GitHub</span>
-              </a>
-            </div>
-          </div>
+          <ms-store-badge
+            productid="9NTDCVFVF0SQ"
+            window-mode="direct"
+            theme="auto"
+            size="large"
+            language="en-us"
+            animation="on">
+          </ms-store-badge>
         </div>
       </div>
     </div>
@@ -728,63 +710,51 @@
     onScroll();
   })();
   </script>
+
   <script>
-  // Download split button (CTA card): on desktop this is a plain download
-  // link. On mobile/small screens (same breakpoint as the "Download for
-  // Windows" -> "Download" label swap), clicking the button opens a small
-  // dropdown instead of downloading immediately, offering a choice between
-  // the direct .zip and the GitHub releases page. Mirrors the theme
-  // switcher's open/close/outside-click pattern.
+  // Microsoft Store badge (CTA card): the badge only supports a static
+  // theme="dark"|"light"|"auto" attribute, and "auto" follows the
+  // visitor's OS-level preference rather than the site's own light/dark
+  // toggle. Sync it to the site's theme instead.
   (function () {
-    var MOBILE_QUERY = '(max-width:600px)';
-    var isMobile = function () { return window.matchMedia(MOBILE_QUERY).matches; };
+    var badges = document.querySelectorAll('ms-store-badge');
+    if (!badges.length) return;
 
-    var trigger = document.getElementById('download-trigger-features');
-    var menu = document.getElementById('download-menu-features');
-    if (!trigger || !menu) return;
-
-    function closeMenu() {
-      menu.classList.remove('open');
-      trigger.setAttribute('aria-expanded', 'false');
+    function syncBadges() {
+      // Per Microsoft's guidance the badge's theme names its own coloring,
+      // not the page's: a light-background site should show the dark
+      // badge (for contrast), and a dark-background site should show the
+      // light badge — the inverse of the site's own data-theme.
+      var siteTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      var theme = siteTheme === 'light' ? 'dark' : 'light';
+      badges.forEach(function (badge) {
+        if (badge.getAttribute('theme') !== theme) badge.setAttribute('theme', theme);
+      });
     }
 
-    if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.register(closeMenu);
+    syncBadges();
 
-    trigger.addEventListener('click', function (e) {
-      if (!isMobile()) return; // desktop: let the link download as normal
-      e.preventDefault();
-      var isOpen = menu.classList.contains('open');
-      closeMenu();
-      if (!isOpen) {
-        if (window.MouseUtilDropdowns) window.MouseUtilDropdowns.closeOthers(closeMenu);
-        menu.classList.add('open');
-        trigger.setAttribute('aria-expanded', 'true');
-      }
-    });
-
-    menu.querySelectorAll('.download-option').forEach(function (opt) {
-      opt.addEventListener('click', closeMenu);
-    });
-
-    document.addEventListener('click', function (e) {
-      if (!menu.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
-        closeMenu();
-      }
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeMenu();
-    });
-
-    // Close on scroll, matching the theme switcher's dropdown behavior.
-    window.addEventListener('scroll', closeMenu, { passive: true });
-
-    // If the viewport is resized past the breakpoint into desktop width
-    // while the dropdown is open, close it so it doesn't linger.
-    window.matchMedia(MOBILE_QUERY).addEventListener('change', function (e) {
-      if (!e.matches) closeMenu();
-    });
+    var badgeThemeObserver = new MutationObserver(syncBadges);
+    badgeThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();
   </script>
+
+  <script type="module">
+  // Prototype only: syncs Fluent UI Web Components' Fluent 2 tokens to this
+  // site's own light/dark toggle, per Microsoft's documented setTheme() API.
+  import { setTheme } from '@fluentui/web-components';
+  import { webLightTheme, webDarkTheme } from '@fluentui/tokens';
+
+  function syncFluentTheme() {
+    var siteTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    setTheme(siteTheme === 'light' ? webLightTheme : webDarkTheme);
+  }
+
+  syncFluentTheme();
+
+  var fluentThemeObserver = new MutationObserver(syncFluentTheme);
+  fluentThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  </script>
+
 </body>
 </html>
