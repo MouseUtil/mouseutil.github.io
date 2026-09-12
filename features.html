@@ -265,7 +265,7 @@
   .callout.warn .dot{ color:var(--amber); }
   .callout-row{
     display:grid;
-    grid-template-columns: calc(((100% - 32px)/3)*2 + 14px) calc((100% - 32px)/3 - 2px);
+    grid-template-columns: 1fr;
     gap:20px;
     margin-top:20px;
   }
@@ -382,9 +382,6 @@
 
   @media (max-width:860px){
     .feature-grid{grid-template-columns:repeat(2, 1fr);}
-    .callout-row{grid-template-columns:1fr;}
-    .callout-row .callout.info{order:1;}
-    .callout-row .callout.warn{order:2;}
     .oss-card{flex-basis:calc((100% - 16px)/2);}
     .cta-card{ padding:44px 36px; }
     .cta-card-github{ padding:24px 36px; }
@@ -566,10 +563,6 @@
     </div>
 
     <div class="group">
-      <div class="group-head">
-        <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/></svg>
-        <h2>A couple of things to know</h2>
-      </div>
       <div class="callout-row">
         <div class="callout warn">
           <div class="callout-head">
@@ -581,18 +574,6 @@
             <strong>Fair warning</strong>
           </div>
           <div>I'm not a software developer. This project was developed primarily using Claude Code, with me directing the architecture, reviewing the generated code, testing, and making iterative improvements. All code in this repository has been reviewed before release. The only asset not created with AI is the app icon, which I designed myself.</div>
-        </div>
-
-        <div class="callout info">
-          <div class="callout-head">
-            <svg class="dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <path d="M12 16v-4"/>
-              <path d="M12 8h.01"/>
-            </svg>
-            <strong>Unsigned installer</strong>
-          </div>
-          <div>Ships as an unsigned .exe installer, so Windows SmartScreen may display a warning the first time you run it.</div>
         </div>
       </div>
     </div>
