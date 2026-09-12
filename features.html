@@ -168,6 +168,9 @@
     color:var(--muted);
     flex-shrink:0;
   }
+  .group-head .gicon.gicon-amber{
+    color:var(--amber);
+  }
   .group-head h2{
     font-size:16px;
     margin:0;
@@ -270,6 +273,69 @@
     margin-top:20px;
   }
   .callout-row .callout{ margin-top:0; }
+
+  /* ============ SCREENSHOTS ============ */
+  .group-head-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .group-head-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .section-link{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:14px;
+    font-weight:700;
+    text-decoration:none;
+    color:var(--icon-accent);
+    white-space:nowrap;
+  }
+  .section-link svg{ width:15px; height:15px; }
+  .shots-carousel{
+    position:relative;
+  }
+  .shots-arrow{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:2;
+  }
+  .shots-arrow.shots-prev{ left:-56px; }
+  .shots-arrow.shots-next{ right:-56px; }
+  .shots-arrow:active{ transform:translateY(-50%); }
+  @media (max-width:1184px){
+    .shots-arrow.shots-prev{ left:-20px; }
+    .shots-arrow.shots-next{ right:-20px; }
+  }
+  .shot-row{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+    transition:transform .32s ease, opacity .32s ease;
+    transform:translateX(0);
+    opacity:1;
+  }
+  .shot-row img{
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:582/750;
+    border-radius:6px;
+    border:1px solid var(--border);
+  }
+  .shot-row.dark-set{ display:none; }
+  .shot-row.light-set{ display:none; }
+  .shots-carousel[data-shots-view="dark"] .shot-row.dark-set{ display:grid; }
+  .shots-carousel[data-shots-view="light"] .shot-row.light-set{ display:grid; }
+  .shot-row.shots-shift-left{ transform:translateX(-18px); opacity:0; }
+  .shot-row.shots-shift-right{ transform:translateX(18px); opacity:0; }
 
   /* ============ CTA CARD ============ */
   .cta-band{
@@ -385,6 +451,7 @@
     .oss-card{flex-basis:calc((100% - 16px)/2);}
     .cta-card{ padding:44px 36px; }
     .cta-card-github{ padding:24px 36px; }
+    .shot-row{ grid-template-columns:repeat(2, 1fr); }
   }
   @media (max-width:600px){
     h1{font-size:34px;}
@@ -393,6 +460,9 @@
     .oss-card-logo{width:90px;height:90px;right:-16px;bottom:-16px;}
     .feature-grid{grid-template-columns:1fr;}
     .feature-grid-modes{grid-template-columns:1fr;}
+    .shot-row{ grid-template-columns:repeat(2, 1fr); gap:10px; }
+    .shots-arrow.shots-prev{ left:-14px; }
+    .shots-arrow.shots-next{ right:-14px; }
     .cta-card{ padding:40px 24px; }
     .cta-card-github{ padding:20px 24px; }
     .cta-card h2{ font-size:clamp(17px, 5.6vw, 24px); white-space:nowrap; }
@@ -455,12 +525,12 @@
       <div class="feature-grid feature-grid-modes">
         <fluent-card class="feature-card">
           <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>
-          <h3>Auto click</h3>
+          <h3 class="display">Auto click</h3>
           <p>Automatically clicks where the mouse pointer currently is on the screen.</p>
         </fluent-card>
         <fluent-card class="feature-card">
           <svg class="ficon ficon-pink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="7"/><path d="M12 6v4"/></svg>
-          <h3>Jiggle</h3>
+          <h3 class="display">Jiggle</h3>
           <p>Moves the cursor in a tiny circle and lands back on the exact starting pixel.</p>
         </fluent-card>
       </div>
@@ -468,14 +538,14 @@
 
     <div class="group">
       <div class= "group-head">
-        <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></svg>
-        <h2>Set your own interval</h2>
+        <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg>
+        <h2>Automation &amp; timing</h2>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></svg>
           <h3>Custom interval</h3>
-          <p>Set the timer between each click or spin.</p>
+          <p>Set the timer between each click or jiggle.</p>
         </div>
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/></svg>
@@ -483,19 +553,15 @@
           <p>Enable for a more "authentic" presence. Your custom interval becomes the cap.</p>
         </div>
         <div class="feature-card">
-          <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8h4"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M17 16h4"/><path d="M19 12V3"/><path d="M19 21v-5"/><path d="M3 14h4"/><path d="M5 10V3"/><path d="M5 21v-7"/></svg>
-          <h3>Advanced interval view</h3>
-          <p>Enable a more precise interval display with Hours / Minutes / Seconds / Milliseconds.</p>
+          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-3"><circle cx="12" cy="12" r="10"/><path d="M12 6v6h4"/></svg>
+          <h3>Interval display</h3>
+          <p>Switch between a Minutes/Seconds display or full Hours/Minutes/Seconds/Milliseconds.</p>
         </div>
-      </div>
-    </div>
-
-    <div class="group">
-      <div class="group-head">
-        <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.054 18.946a11 11 0 0 1-2.11 0"/><path d="M13.054 5.054a11 11 0 0 0-2.11-.001"/><path d="M17.072 6.274a11 11 0 0 1 1.753 1.173"/><path d="M18.825 16.552a11 11 0 0 1-1.753 1.174"/><path d="M2.514 13.303a11 11 0 0 1-.452-.954 1 1 0 0 1 0-.697 11 11 0 0 1 .45-.955"/><path d="M21.485 10.697a11 11 0 0 1 .453.955 1 1 0 0 1 0 .697 11 11 0 0 1-.453.954"/><path d="M5.173 7.448a11 11 0 0 1 1.753-1.174"/><path d="M6.926 17.726a11 11 0 0 1-1.753-1.174"/><circle cx="12" cy="12" r="3"/></svg>
-        <h2>Stays out of your way</h2>
-      </div>
-      <div class="feature-grid">
+        <div class="feature-card">
+          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/></svg>
+          <h3>Auto start</h3>
+          <p>Start automation in your preferred mode right as the app launches.</p>
+        </div>
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="3" width="5" height="18" rx="1"/><rect x="5" y="3" width="5" height="18" rx="1"/></svg>
           <h3>Pause on manual movement</h3>
@@ -504,7 +570,7 @@
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.586 16.726A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2h6.624a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586z"/></svg>
           <h3>Auto-stop conditions</h3>
-          <p>Set a click/spin repeat limit or a stop date and time.</p>
+          <p>Set a click/jiggle repeat limit or a stop date and time.</p>
         </div>
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/></svg>
@@ -517,7 +583,7 @@
     <div class="group">
       <div class="group-head">
         <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/></svg>
-        <h2>See what it's doing</h2>
+        <h2>Status &amp; feedback</h2>
       </div>
       <div class="feature-grid">
         <div class="feature-card">
@@ -526,14 +592,14 @@
           <p>Can run in system tray with icon states, live tooltip, and a menu to start or stop the utility.</p>
         </div>
         <div class="feature-card">
-          <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17V9"/><path d="M18 17V5"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 17v-3"/></svg>
+          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
           <h3>Live status &amp; progress</h3>
-          <p>A live countdown to the next click or spin, along with a total counter.</p>
+          <p>A live countdown to the next click or jiggle, along with a total counter.</p>
         </div>
         <div class="feature-card">
-          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 15h18"/></svg>
+          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-loader-circle"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
           <h3>Taskbar icon progress</h3>
-          <p>A progress bar on the taskbar icon that gradually depletes until the next click/spin.</p>
+          <p>A progress bar on the taskbar icon that gradually depletes until the next click/jiggle.</p>
         </div>
       </div>
     </div>
@@ -545,14 +611,14 @@
       </div>
       <div class="feature-grid">
         <div class="feature-card">
+          <svg class="ficon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></svg>
+          <h3>Launch on startup</h3>
+          <p>Launch MouseUtil automatically when Windows starts.</p>
+        </div>
+        <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
           <h3>Fluent design</h3>
           <p>Build with WinUI with support for light, dark, or automatic theming.</p>
-        </div>
-        <div class="feature-card">
-          <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
-          <h3>Check for updates</h3>
-          <p>Check manually from Settings, or let MouseUtil check automatically every time it starts.</p>
         </div>
         <div class="feature-card">
           <svg class="ficon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
@@ -563,16 +629,45 @@
     </div>
 
     <div class="group">
+      <div class="group-head group-head-row">
+        <div class="group-head-title">
+          <svg class="gicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          <h2>See it in action</h2>
+        </div>
+        <a href="screenshots.html" class="section-link">
+          All screenshots
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="shots-carousel" id="shots">
+        <button type="button" class="icon-btn shots-arrow shots-prev" id="shots-prev" aria-label="Show light mode screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="shot-row dark-set">
+          <img src="screenshots/dark-1.png" alt="Auto click mode, idle" loading="lazy">
+          <img src="screenshots/dark-4.png" alt="Auto click mode, counting down" loading="lazy">
+          <img src="screenshots/dark-2.png" alt="Jiggle, idle" loading="lazy">
+          <img src="screenshots/dark-3.png" alt="Settings panel" loading="lazy">
+        </div>
+        <div class="shot-row light-set">
+          <img src="screenshots/light-1.png" alt="Auto click mode, idle" loading="lazy">
+          <img src="screenshots/light-4.png" alt="Auto click mode, counting down" loading="lazy">
+          <img src="screenshots/light-2.png" alt="Jiggle, idle" loading="lazy">
+          <img src="screenshots/light-3.png" alt="Settings panel" loading="lazy">
+        </div>
+        <button type="button" class="icon-btn shots-arrow shots-next" id="shots-next" aria-label="Show light mode screenshots">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="group-head">
+        <svg class="gicon gicon-amber" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+        <h2>Fair warning</h2>
+      </div>
       <div class="callout-row">
         <div class="callout warn">
-          <div class="callout-head">
-            <svg class="dot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/>
-              <path d="M12 9v4"/>
-              <path d="M12 17h.01"/>
-            </svg>
-            <strong>Fair warning</strong>
-          </div>
           <div>I'm not a software developer. This project was developed primarily using Claude Code, with me directing the architecture, reviewing the generated code, testing, and making iterative improvements. All code in this repository has been reviewed before release. The only asset not created with AI is the app icon, which I designed myself.</div>
         </div>
       </div>
@@ -717,6 +812,79 @@
 
     var badgeThemeObserver = new MutationObserver(syncBadges);
     badgeThemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+  </script>
+
+  <script>
+  (function(){
+    var shots = document.getElementById('shots');
+    var prevBtn = document.getElementById('shots-prev');
+    var nextBtn = document.getElementById('shots-next');
+    if (!shots || !prevBtn || !nextBtn) return;
+
+    var animating = false;
+
+    function updateAria(view){
+      var otherLabel = view === 'dark' ? 'light' : 'dark';
+      var aria = 'Show ' + otherLabel + ' mode screenshots';
+      prevBtn.setAttribute('aria-label', aria);
+      nextBtn.setAttribute('aria-label', aria);
+    }
+
+    function switchView(direction){
+      if (animating) return;
+      var current = shots.getAttribute('data-shots-view');
+      var next = current === 'dark' ? 'light' : 'dark';
+      var currentRow = shots.querySelector('.shot-row.' + current + '-set');
+      var nextRow = shots.querySelector('.shot-row.' + next + '-set');
+      if (!currentRow || !nextRow) return;
+
+      animating = true;
+
+      // Outgoing set shifts slightly toward the opposite side of the
+      // clicked arrow, then fades out.
+      var exitClass = direction === 'next' ? 'shots-shift-left' : 'shots-shift-right';
+      // Incoming set enters from the same side the click points toward.
+      var enterFromClass = direction === 'next' ? 'shots-shift-right' : 'shots-shift-left';
+
+      currentRow.classList.add(exitClass);
+
+      setTimeout(function(){
+        nextRow.classList.add(enterFromClass);
+        shots.setAttribute('data-shots-view', next);
+        updateAria(next);
+        currentRow.classList.remove(exitClass);
+
+        // Force layout so the browser registers the offset starting point
+        // before we animate it back to rest.
+        nextRow.offsetHeight;
+        requestAnimationFrame(function(){
+          nextRow.classList.remove(enterFromClass);
+        });
+
+        setTimeout(function(){ animating = false; }, 320);
+      }, 320);
+    }
+
+    // Start in sync with the site's current theme.
+    var initial = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    shots.setAttribute('data-shots-view', initial);
+    updateAria(initial);
+
+    prevBtn.addEventListener('click', function(){ switchView('prev'); });
+    nextBtn.addEventListener('click', function(){ switchView('next'); });
+
+    // Re-sync to the theme whenever it changes, overriding any manual
+    // switching the user did with the arrows (mirrors index.html/
+    // screenshots.html, which reorder the same way when the theme changes).
+    var themeObserver = new MutationObserver(function(){
+      var theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+      if (shots.getAttribute('data-shots-view') !== theme) {
+        shots.setAttribute('data-shots-view', theme);
+        updateAria(theme);
+      }
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   })();
   </script>
 
