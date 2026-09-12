@@ -63,6 +63,7 @@
   }
   .hero-copy{
     position:relative;
+    z-index:1;
   }
   .hero-brand{
     position:absolute;
@@ -456,9 +457,10 @@
 
   @media (max-width:860px){
     .hero{ padding:104px 0 64px; }
-    .hero-grid{ grid-template-columns:1fr; gap:48px; }
+    .hero-grid{ grid-template-columns:1fr; column-gap:48px; row-gap:24px; }
     .hero-lede{ max-width:none; }
     .mockup-wrap{ padding-top:0; }
+    .cta-row{ margin-bottom:8px; }
     .mockup-spiral{ width:320px; height:320px; top:-40px; right:-30px; }
     .feat-grid{ grid-template-columns:repeat(2, 1fr); }
     .shot-row{ grid-template-columns:repeat(2, 1fr); }
